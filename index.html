@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>良日和 Ryobiyori</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1612;
+  --paper: #f8f5f0;
+  --paper2: #eee9e0;
+  --paper3: #e4ddd2;
+  --accent: #8b4513;
+  --accent2: #c4773a;
+  --muted: #7a7065;
+  --border: rgba(26,22,18,0.1);
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: 'Noto Sans TC', sans-serif; font-weight: 300; line-height: 1.7; min-height: 100vh; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(248,245,240,0.94); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(16px,5vw,56px); height: 56px;
+}
+.nav-logo {
+  font-family: 'Shippori Mincho', serif; font-size: 17px; font-weight: 700;
+  letter-spacing: 0.06em; color: var(--ink); cursor: pointer;
+  display: flex; align-items: baseline; gap: 8px; border: none; background: none;
+}
+.nav-logo-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; font-weight: 400; color: var(--muted); }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-links { display: flex; gap: 22px; list-style: none; }
+.nav-links button { font-size: 12.5px; color: var(--muted); background: none; border: none; cursor: pointer; letter-spacing: 0.04em; transition: color 0.2s; font-family: inherit; }
+.nav-links button:hover { color: var(--ink); }
+.breadcrumb { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.breadcrumb .bc-item { cursor: pointer; transition: color 0.2s; white-space: nowrap; }
+.breadcrumb .bc-item:hover { color: var(--accent); }
+.breadcrumb .bc-sep { color: var(--border); user-select: none; }
+.breadcrumb .bc-current { color: var(--ink); cursor: default; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; animation: fadein 0.3s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* HERO */
+.hero { min-height: 88vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(40px,8vw,100px) clamp(24px,5vw,72px); position: relative; z-index: 2;
+}
+.hero-eyebrow { font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 22px; }
+.hero-title { font-family: 'Shippori Mincho', serif; font-size: clamp(44px,6.5vw,74px); font-weight: 700; line-height: 1.12; margin-bottom: 10px; }
+.hero-title-en { font-family: 'Cormorant Garamond', serif; font-size: clamp(15px,2vw,21px); font-style: italic; color: var(--muted); margin-bottom: 28px; }
+.hero-desc { font-size: 13.5px; color: var(--muted); max-width: 340px; line-height: 1.9; margin-bottom: 36px; }
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 10px; font-size: 12.5px;
+  letter-spacing: 0.08em; color: var(--paper); background: var(--ink);
+  padding: 12px 26px; border: none; cursor: pointer; transition: background 0.2s; font-family: inherit;
+}
+.hero-cta:hover { background: var(--accent); }
+.hero-deco { position: absolute; bottom: 20px; left: -8px; font-family: 'Shippori Mincho', serif; font-size: 140px; color: rgba(26,22,18,0.035); font-weight: 700; pointer-events: none; user-select: none; line-height: 1; }
+.hero-mosaic { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; }
+.hero-tile { display: flex; align-items: center; justify-content: center; font-size: 52px; position: relative; overflow: hidden; transition: transform 0.4s; cursor: default; }
+.hero-tile:nth-child(1) { grid-row: span 2; background: linear-gradient(160deg,#2a1f14,#3d2b1a); }
+.hero-tile:nth-child(2) { background: linear-gradient(160deg,#1a2518,#2e3d28); }
+.hero-tile:nth-child(3) { background: linear-gradient(160deg,#1e1e2a,#2a2a3a); }
+.hero-tile:hover { transform: scale(1.03); z-index: 2; }
+.tile-lbl { position: absolute; bottom: 14px; left: 14px; font-family: 'Shippori Mincho', serif; font-size: 11px; color: rgba(255,255,255,0.65); letter-spacing: 0.1em; }
+
+/* COMMON SECTION */
+.wrap { padding: clamp(48px,7vw,88px) clamp(16px,5vw,56px); }
+.sec-hd { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 34px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.sec-title { font-family: 'Shippori Mincho', serif; font-size: clamp(20px,2.8vw,28px); font-weight: 700; letter-spacing: 0.02em; }
+.sec-title-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.6em; color: var(--muted); margin-left: 10px; font-weight: 400; }
+
+/* PAGE HEADER (shared for L2 & L3) */
+.pg-header { color: var(--paper); padding: clamp(36px,6vw,68px) clamp(16px,5vw,56px); }
+.pg-header-cat { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(248,245,240,0.55); margin-bottom: 12px; }
+.pg-header-title { font-family: 'Shippori Mincho', serif; font-size: clamp(30px,5vw,50px); font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+.pg-header-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(14px,1.8vw,19px); color: rgba(248,245,240,0.4); }
+
+/* ── LAYER 1: CATEGORIES ── */
+.cats-bg { background: var(--paper2); }
+.cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px,1fr)); gap: 2px; }
+.cat-card {
+  background: var(--paper); padding: 28px 22px; cursor: pointer;
+  transition: background 0.2s, transform 0.2s; border: none; text-align: left;
+  font-family: inherit; color: var(--ink); display: block; width: 100%;
+}
+.cat-card:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+.cat-card:hover .cat-name-en, .cat-card:hover .cat-count { color: rgba(248,245,240,0.4); }
+.cat-icon { font-size: 30px; display: block; margin-bottom: 14px; }
+.cat-name { font-family: 'Shippori Mincho', serif; font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+.cat-name-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12.5px; color: var(--muted); margin-bottom: 10px; transition: color 0.2s; }
+.cat-count { font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em; transition: color 0.2s; }
+
+/* ── LAYER 2: PLACES ── */
+.places-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(255px,1fr)); gap: 18px; padding: clamp(32px,5vw,56px) clamp(16px,5vw,56px); }
+.place-card { background: var(--paper); border: 1px solid var(--border); cursor: pointer; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
+.place-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(26,22,18,0.1); }
+.place-thumb { height: 175px; display: flex; align-items: center; justify-content: center; font-size: 58px; transition: transform 0.4s; }
+.place-card:hover .place-thumb { transform: scale(1.05); }
+.place-body { padding: 17px 19px 21px; }
+.place-region { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.place-name { font-family: 'Shippori Mincho', serif; font-size: 16px; font-weight: 700; line-height: 1.45; margin-bottom: 4px; }
+.place-name-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
+.place-footer { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+
+/* ── LAYER 3: GALLERY ── */
+.gallery-meta { padding: clamp(24px,4vw,44px) clamp(16px,5vw,56px); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; }
+.gallery-desc { font-size: 13.5px; color: var(--muted); line-height: 1.9; max-width: 560px; }
+.gallery-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 12px; }
+.gallery-tag { font-size: 10.5px; padding: 4px 11px; background: var(--paper2); color: var(--muted); letter-spacing: 0.04em; }
+.gallery-date-blk { text-align: right; }
+.gallery-date { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--accent2); font-weight: 600; line-height: 1; }
+.gallery-region-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.05em; }
+
+.photo-grid { padding: clamp(20px,4vw,44px) clamp(16px,5vw,56px); display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 3px; }
+.photo-item { background: var(--paper2); cursor: pointer; overflow: hidden; }
+.photo-item:nth-child(4n+1) { grid-column: span 2; }
+.photo-thumb { aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-size: 62px; transition: transform 0.4s; }
+.photo-item:nth-child(4n+1) .photo-thumb { aspect-ratio: 16/7; }
+.photo-item:hover .photo-thumb { transform: scale(1.04); }
+.photo-cap { padding: 13px 15px 15px; background: var(--paper); }
+.photo-cap-num { font-family: 'Cormorant Garamond', serif; font-size: 10.5px; color: var(--paper3); margin-bottom: 3px; letter-spacing: 0.08em; }
+.photo-cap-text { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+
+/* LIGHTBOX */
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(26,22,18,0.93); z-index: 900; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }
+.lightbox.open { display: flex; }
+.lb-inner { max-width: 780px; width: 100%; position: relative; }
+.lb-img { width: 100%; aspect-ratio: 4/3; background: #2a2018; display: flex; align-items: center; justify-content: center; font-size: 110px; }
+.lb-bottom { background: var(--ink); color: var(--paper); padding: 16px 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.lb-caption { font-size: 13.5px; line-height: 1.75; flex: 1; }
+.lb-counter { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(248,245,240,0.35); white-space: nowrap; margin-top: 3px; }
+.lb-close { position: absolute; top: -40px; right: 0; background: none; border: none; color: rgba(248,245,240,0.55); font-size: 13px; cursor: pointer; letter-spacing: 0.1em; font-family: inherit; }
+.lb-close:hover { color: var(--paper); }
+.lb-nav { position: absolute; top: 50%; transform: translateY(-60%); display: flex; justify-content: space-between; width: calc(100% + 88px); left: -44px; pointer-events: none; }
+.lb-arrow { pointer-events: all; background: rgba(248,245,240,0.08); border: 1px solid rgba(248,245,240,0.14); color: rgba(248,245,240,0.65); width: 40px; height: 40px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.lb-arrow:hover { background: rgba(248,245,240,0.18); }
+
+/* ABOUT */
+.about-bg { background: var(--ink); color: var(--paper); }
+.about-bg .sec-hd { border-color: rgba(248,245,240,0.1); }
+.about-bg .sec-title { color: var(--paper); }
+.about-bg .sec-title-en { color: rgba(248,245,240,0.3); }
+.about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(28px,5vw,72px); align-items: start; }
+.about-avatar { aspect-ratio: 3/4; background: #2a2018; display: flex; align-items: center; justify-content: center; font-size: 72px; position: relative; }
+.about-avatar::after { content: ''; position: absolute; inset: 0; border: 1px solid rgba(248,245,240,0.12); margin: 10px; }
+.about-name { font-family: 'Shippori Mincho', serif; font-size: clamp(22px,3vw,34px); font-weight: 700; margin-bottom: 4px; }
+.about-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: rgba(248,245,240,0.38); margin-bottom: 26px; }
+.about-bio { font-size: 13.5px; color: rgba(248,245,240,0.62); line-height: 2; margin-bottom: 30px; max-width: 460px; }
+.stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(248,245,240,0.08); margin-bottom: 30px; }
+.stat { background: var(--ink); padding: 17px; text-align: center; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 33px; font-weight: 600; color: var(--accent2); line-height: 1; margin-bottom: 4px; }
+.stat-lbl { font-size: 10.5px; color: rgba(248,245,240,0.36); letter-spacing: 0.08em; }
+.socials { display: flex; gap: 9px; flex-wrap: wrap; }
+.social-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; letter-spacing: 0.05em; padding: 9px 15px; border: 1px solid rgba(248,245,240,0.17); color: rgba(248,245,240,0.68); text-decoration: none; cursor: pointer; transition: border-color 0.2s, color 0.2s; background: none; font-family: inherit; }
+.social-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--border); padding: 26px clamp(16px,5vw,56px); display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: var(--muted); flex-wrap: wrap; gap: 10px; }
+.footer-logo { font-family: 'Shippori Mincho', serif; font-size: 15px; font-weight: 700; color: var(--ink); }
+.footer-logo span { color: var(--accent); }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-mosaic { height: 220px; }
+  .hero-tile:nth-child(1) { grid-row: span 1; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-avatar { aspect-ratio: 16/8; }
+  .photo-item:nth-child(4n+1) { grid-column: span 1; }
+  .photo-item:nth-child(4n+1) .photo-thumb { aspect-ratio: 4/3; }
+  .lb-nav { display: none; }
+  .nav-links { display: none; }
+  .gallery-meta { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-logo" onclick="goHome()">良日和<span class="nav-logo-en">Ryobiyori</span></button>
+  <div class="nav-right">
+    <div class="breadcrumb" id="breadcrumb"></div>
+    <ul class="nav-links">
+      <li><button onclick="goHome()">首頁</button></li>
+      <li><button onclick="goAbout()">關於我</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════
+     PAGE 1: HOME
+════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">神社 ・ 日本城 ・ 旅遊記錄 ・ 台灣日常</div>
+      <h1 class="hero-title">良い日和<br>の記録</h1>
+      <div class="hero-title-en">Notes from good days of travel</div>
+      <p class="hero-desc">在好天氣出發的日子裡，用鏡頭留下神社的鳥居、城的天守、旅館的晨光，以及台灣街角的日常光影。</p>
+      <button class="hero-cta" onclick="document.getElementById('cats-anchor').scrollIntoView({behavior:'smooth'})">
+        開始探索
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <div class="hero-deco">和</div>
+    </div>
+    <div class="hero-mosaic">
+      <div class="hero-tile"><span>⛩️</span><span class="tile-lbl">神社</span></div>
+      <div class="hero-tile"><span>🏯</span><span class="tile-lbl">日本城</span></div>
+      <div class="hero-tile"><span>🌿</span><span class="tile-lbl">台灣</span></div>
+    </div>
+  </section>
+
+  <div id="cats-anchor"></div>
+  <section class="cats-bg">
+    <div class="wrap" style="padding-bottom:2px">
+      <div class="sec-hd">
+        <h2 class="sec-title">分類<span class="sec-title-en">Categories</span></h2>
+      </div>
+    </div>
+    <div class="cats-grid">
+      <button class="cat-card" onclick="openCat('shrine')">
+        <span class="cat-icon">⛩️</span>
+        <div class="cat-name">神社巡禮</div>
+        <div class="cat-name-en">Shrine Walk</div>
+        <div class="cat-count">10 個地點</div>
+      </button>
+      <button class="cat-card" onclick="openCat('castle')">
+        <span class="cat-icon">🏯</span>
+        <div class="cat-name">日本城</div>
+        <div class="cat-name-en">Castles of Japan</div>
+        <div class="cat-count">8 個地點</div>
+      </button>
+      <button class="cat-card" onclick="openCat('japan')">
+        <span class="cat-icon">🗾</span>
+        <div class="cat-name">日本旅遊紀錄</div>
+        <div class="cat-name-en">Japan Travel</div>
+        <div class="cat-count">15 個地點</div>
+      </button>
+      <button class="cat-card" onclick="openCat('hotel-jp')">
+        <span class="cat-icon">🏨</span>
+        <div class="cat-name">旅館（日本）</div>
+        <div class="cat-name-en">Hotels in Japan</div>
+        <div class="cat-count">12 間旅館</div>
+      </button>
+      <button class="cat-card" onclick="openCat('hotel-tw')">
+        <span class="cat-icon">🏠</span>
+        <div class="cat-name">旅館（台灣）</div>
+        <div class="cat-name-en">Hotels in Taiwan</div>
+        <div class="cat-count">7 間旅館</div>
+      </button>
+      <button class="cat-card" onclick="openCat('food-jp')">
+        <span class="cat-icon">🍜</span>
+        <div class="cat-name">美食（日本）</div>
+        <div class="cat-name-en">Food in Japan</div>
+        <div class="cat-count">20 個地方</div>
+      </button>
+      <button class="cat-card" onclick="openCat('food-tw')">
+        <span class="cat-icon">🥢</span>
+        <div class="cat-name">美食（台灣）</div>
+        <div class="cat-name-en">Food in Taiwan</div>
+        <div class="cat-count">18 個地方</div>
+      </button>
+      <button class="cat-card" onclick="openCat('taiwan')">
+        <span class="cat-icon">🌿</span>
+        <div class="cat-name">台灣日常紀錄</div>
+        <div class="cat-name-en">Taiwan Daily Life</div>
+        <div class="cat-count">24 個地點</div>
+      </button>
+    </div>
+  </section>
+
+  <section class="about-bg" id="about-anchor">
+    <div class="wrap">
+      <div class="sec-hd">
+        <h2 class="sec-title">關於我<span class="sec-title-en">About</span></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-avatar">🧳</div>
+        <div>
+          <div class="about-name">良日和</div>
+          <div class="about-sub">Ryobiyori — traveller & photographer</div>
+          <p class="about-bio">台灣人，喜歡在好天氣出發的日子記錄旅途中的光景。<br><br>對神社有種說不清的執著，鳥居、狛犬、苔蘚、香的氣味，那種穿越時空的靜謐感讓我一再回去。日本城則是另一種著迷，每座城背後都有屬於那個時代的故事。<br><br>用同樣的眼光看台灣的日常，反而能看到平常忽略的美。</p>
+          <div class="stats">
+            <div class="stat"><div class="stat-num">23</div><div class="stat-lbl">神社造訪</div></div>
+            <div class="stat"><div class="stat-num">11</div><div class="stat-lbl">日本城</div></div>
+            <div class="stat"><div class="stat-num">80+</div><div class="stat-lbl">旅遊地點</div></div>
+          </div>
+          <div class="socials">
+            <a class="social-btn" href="#" target="_blank">📷 Instagram</a>
+            <a class="social-btn" href="#" target="_blank">▶ YouTube</a>
+            <a class="social-btn" href="mailto:">✉ 聯絡我</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">良日<span>和</span></div>
+    <div>© 2025 ryobiyori.github.io</div>
+    <div style="letter-spacing:0.05em;font-size:11px;">神社 ・ 日本城 ・ 旅遊紀錄 ・ 台灣日常</div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════
+     PAGE 2: PLACES LIST (Layer 2)
+════════════════════════════════ -->
+<div class="page" id="page-cat">
+  <div class="pg-header" id="cat-header">
+    <div class="pg-header-cat" id="cat-super"></div>
+    <h1 class="pg-header-title" id="cat-title"></h1>
+    <div class="pg-header-en" id="cat-title-en"></div>
+  </div>
+  <div class="places-grid" id="places-grid"></div>
+</div>
+
+<!-- ════════════════════════════════
+     PAGE 3: PHOTO GALLERY (Layer 3)
+════════════════════════════════ -->
+<div class="page" id="page-gallery">
+  <div class="pg-header" id="gal-header">
+    <div class="pg-header-cat" id="gal-super"></div>
+    <h1 class="pg-header-title" id="gal-title"></h1>
+    <div class="pg-header-en" id="gal-title-en"></div>
+  </div>
+  <div class="gallery-meta">
+    <div>
+      <p class="gallery-desc" id="gal-desc"></p>
+      <div class="gallery-tags" id="gal-tags"></div>
+    </div>
+    <div class="gallery-date-blk">
+      <div class="gallery-date" id="gal-date"></div>
+      <div class="gallery-region-lbl" id="gal-region"></div>
+    </div>
+  </div>
+  <div class="photo-grid" id="photo-grid"></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="lbBgClick(event)">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLb()">✕ 關閉</button>
+    <div class="lb-img" id="lb-img"></div>
+    <div class="lb-bottom">
+      <div class="lb-caption" id="lb-caption"></div>
+      <div class="lb-counter" id="lb-counter"></div>
+    </div>
+    <div class="lb-nav">
+      <button class="lb-arrow" onclick="lbMove(-1)">←</button>
+      <button class="lb-arrow" onclick="lbMove(1)">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     DATA & LOGIC
+════════════════════════════════ -->
+<script>
+/* ══════════════════════════════════════════════════
+   DATA — 修改這裡來新增你的地點和照片
+   
+   每個分類有 places 陣列
+   每個 place 有 photos 陣列
+   
+   照片的 emoji 之後可以換成 <img> 標籤或實際圖片路徑
+══════════════════════════════════════════════════ */
+const DATA = {
+
+  shrine: {
+    name: '神社巡禮', nameEn: 'Shrine Walk', icon: '⛩️',
+    bg: 'linear-gradient(150deg,#2a1f14,#3d2b1a)',
+    places: [
+      {
+        id: 'fushimi', name: '伏見稻荷大社', nameEn: 'Fushimi Inari Taisha',
+        region: '京都', date: '2025.03',
+        thumb: '⛩️', thumbBg: 'linear-gradient(135deg,#2a1814,#5a3020)',
+        desc: '凌晨五點抵達，千本鳥居裡只有我一人。光線穿透朱紅，苔蘚帶著露水的氣息，走在裡面像是誤入了某個時間縫隙。爬到山頂的四つ辻，京都盆地在晨霧中漸漸甦醒。',
+        tags: ['早晨', '千本鳥居', '無人', '爬山'],
+        photos: [
+          { e: '⛩️', c: '清晨五點的千本鳥居入口，光線還很低，朱紅色在霧中顯得格外濃烈。' },
+          { e: '🦊', c: '稻荷大神的使者——狐狸石像，這一對守著奧社已有數百年。' },
+          { e: '🌲', c: '鳥居隧道深處，兩側的柳杉遮天蔽日，中午也是陰涼的。' },
+          { e: '🌅', c: '四つ辻的展望台，京都盆地在晨霧中漸漸浮現。' },
+          { e: '📿', c: '路邊的小祠，供奉著油揚豆腐，是給狐狸的供品。' },
+          { e: '🍵', c: '下山後在參道茶屋喝了一杯玉露，苦中帶甘。' },
+        ]
+      },
+      {
+        id: 'kasuga', name: '春日大社', nameEn: 'Kasuga Taisha',
+        region: '奈良', date: '2024.10',
+        thumb: '🪔', thumbBg: 'linear-gradient(135deg,#1a2010,#3a4020)',
+        desc: '三千盞石燈籠沿著參道排列，萬燈籠祭點燈的瞬間，整條參道從現代瞬間回到了平安時代。苔蘚覆蓋的石燈籠看起來像是從地面自己生長出來的。',
+        tags: ['石燈籠', '苔蘚', '奈良鹿', '萬燈籠祭'],
+        photos: [
+          { e: '🪔', c: '萬燈籠祭，三千盞燈籠同時點亮的瞬間，像是平安時代的光。' },
+          { e: '🦌', c: '奈良的鹿悠閒地在境內漫步，對人毫無戒心。' },
+          { e: '🌿', c: '苔蘚覆蓋的石燈籠，像是從地底生長出來的古老生命。' },
+          { e: '⛩️', c: '朱紅色的迴廊與石燈籠，春日造建築的精髓。' },
+        ]
+      },
+      {
+        id: 'meiji', name: '明治神宮', nameEn: 'Meiji Jingu',
+        region: '東京', date: '2024.08',
+        thumb: '🌳', thumbBg: 'linear-gradient(135deg,#142014,#203020)',
+        desc: '代代木的70,000棵人工林，讓這裡在東京鬧市中心保有深山的靜謐感。踩著砂利石子路的聲音是這裡最好的背景音樂。',
+        tags: ['東京', '都市森林', '清晨', '砂利'],
+        photos: [
+          { e: '🌳', c: '通往本殿的參道，70,000棵樹形成的綠色隧道。' },
+          { e: '🎋', c: '奉納酒桶與葡萄酒桶並排，是明治天皇喜歡西洋文化的象徵。' },
+          { e: '⛩️', c: '南參道的大鳥居，日本最大的木造明神鳥居之一。' },
+        ]
+      },
+    ]
+  },
+
+  castle: {
+    name: '日本城', nameEn: 'Castles of Japan', icon: '🏯',
+    bg: 'linear-gradient(150deg,#1a2518,#2e3d28)',
+    places: [
+      {
+        id: 'himeji', name: '姬路城', nameEn: 'Himeji Castle',
+        region: '兵庫', date: '2025.01',
+        thumb: '🏯', thumbBg: 'linear-gradient(135deg,#1e2a1e,#3a4a3a)',
+        desc: '雪後的姬路城像漂浮在霧中的白鷺，石垣上還積著薄薄白雪。這是我第三次來，每次都是不同季節，但這次的雪景是最不真實的一次。',
+        tags: ['白鷺城', '雪景', '石垣', '世界遺產'],
+        photos: [
+          { e: '🏯', c: '雪後的天守閣，白色城壁與白雪融為一體，像是消失在天空中。' },
+          { e: '❄️', c: '石垣上的薄雪，每塊石頭的縫隙都積了白。' },
+          { e: '🌸', c: '西の丸庭園，想像春天櫻花盛開時的景色。' },
+          { e: '⛅', c: '天守閣頂層狭間窗望出去，整個播磨平野都在腳下。' },
+          { e: '🗺️', c: '搦め手口，攻城者必須繞行的設計，展現了防禦工學的智慧。' },
+        ]
+      },
+      {
+        id: 'matsumoto', name: '松本城', nameEn: 'Matsumoto Castle',
+        region: '長野', date: '2024.06',
+        thumb: '🖤', thumbBg: 'linear-gradient(135deg,#101018,#202030)',
+        desc: '黑色天守閣倒映在護城河中，是日本現存12座完整天守之一。烏城的外觀在陽光下顯得格外剽悍，與姬路城的白鷺形成強烈對比。',
+        tags: ['烏城', '黑色天守', '護城河', '國寶'],
+        photos: [
+          { e: '🏯', c: '黑色天守倒映在護城河中，構圖幾乎是完美的對稱。' },
+          { e: '🌙', c: '月見橹，江戶時代後期加建，用來賞月的優雅設計。' },
+          { e: '🏔️', c: '天守閣後方的北アルプス，雪山與黑色城郭的絕妙對比。' },
+        ]
+      },
+      {
+        id: 'osaka-castle', name: '大阪城', nameEn: 'Osaka Castle',
+        region: '大阪', date: '2024.11',
+        thumb: '🌸', thumbBg: 'linear-gradient(135deg,#1e1a28,#2e2838)',
+        desc: '大阪城公園的銀杏葉鋪滿石垣下的廣場，天守閣在金黃色中顯得格外莊嚴。這裡是豐臣秀吉的城，石垣的石頭比姬路城的更巨大，訴說著那個時代的野心。',
+        tags: ['銀杏', '秋天', '石垣', '豐臣秀吉'],
+        photos: [
+          { e: '🏯', c: '秋天的大阪城，銀杏黃葉與白色天守形成暖色對比。' },
+          { e: '🌸', c: '春天的護城河沿岸，櫻花與城郭是大阪最標誌性的風景。' },
+          { e: '🌿', c: '西の丸庭園，賞城的最佳角度，可以看到天守的完整輪廓。' },
+        ]
+      },
+    ]
+  },
+
+  japan: {
+    name: '日本旅遊紀錄', nameEn: 'Japan Travel', icon: '🗾',
+    bg: 'linear-gradient(150deg,#1e1a2a,#2e2a3e)',
+    places: [
+      {
+        id: 'arashiyama', name: '嵐山', nameEn: 'Arashiyama, Kyoto',
+        region: '京都', date: '2025.03',
+        thumb: '🎋', thumbBg: 'linear-gradient(135deg,#1e2a1a,#2e3a28)',
+        desc: '竹林小徑、渡月橋、天龍寺庭園。嵐山幾乎濃縮了所有人對京都的想像，但只要避開人潮的時間，還是能找到屬於自己的安靜角落。',
+        tags: ['竹林', '渡月橋', '早晨', '天龍寺'],
+        photos: [
+          { e: '🎋', c: '竹林小徑，清晨七點前幾乎無人，風吹過竹葉的聲音很治癒。' },
+          { e: '🌉', c: '渡月橋與保津川，秋天楓葉染紅的嵐山是全京都最美的風景。' },
+          { e: '🍵', c: '天龍寺的枯山水庭園，借景嵐山的設計讓庭院無限延伸。' },
+          { e: '🚂', c: '嵐電的復古電車，穿過住宅區的路面軌道，很有生活感。' },
+        ]
+      },
+      {
+        id: 'dotonbori', name: '道頓堀', nameEn: 'Dotonbori, Osaka',
+        region: '大阪', date: '2024.11',
+        thumb: '🌃', thumbBg: 'linear-gradient(135deg,#1a1028,#2a1838)',
+        desc: '雨夜的大阪有一種特別的質感，地面積水反射著招牌的光，每個路人都成了電影場景。深夜的道頓堀才是我想記錄的大阪。',
+        tags: ['霓虹', '深夜', '雨天', '街拍'],
+        photos: [
+          { e: '🌃', c: '雨夜的戎橋，地面積水將霓虹燈倒映成抽象畫。' },
+          { e: '💡', c: '格力高招牌，雖然是觀光客必拍，但霓虹燈在雨中確實有種魔力。' },
+          { e: '🍜', c: '凌晨一點的一蘭拉麵，隔板座位、一個人安靜地吃的體驗。' },
+          { e: '🎭', c: '法善寺橫丁，青苔覆蓋的不動明王像，藏在大阪最喧鬧的角落。' },
+        ]
+      },
+    ]
+  },
+
+  'hotel-jp': {
+    name: '旅館（日本）', nameEn: 'Hotels in Japan', icon: '🏨',
+    bg: 'linear-gradient(150deg,#1a1418,#2e2028)',
+    places: [
+      {
+        id: 'kyoto-ryokan', name: '京都町家旅館', nameEn: 'Kyoto Machiya Ryokan',
+        region: '京都・祇園', date: '2025.03',
+        thumb: '🏮', thumbBg: 'linear-gradient(135deg,#2a1414,#3a2020)',
+        desc: '住在祇園的百年町家改建旅館，坪庭的石燈籠、木格子的朝陽、榻榻米的氣味。那兩晚讓我理解了為什麼日本人說「旅館是用全身感受的」。',
+        tags: ['町家', '坪庭', '榻榻米', '祇園'],
+        photos: [
+          { e: '🏮', c: '傍晚的坪庭，石燈籠亮起，映照著青苔與楓葉。' },
+          { e: '🌅', c: '清晨從紙拉門透進來的光，打在榻榻米上形成格紋。' },
+          { e: '🍵', c: '早餐的懷石，每一道都是當季的食材。' },
+          { e: '🛁', c: '檜木浴槽，泡在裡面能聞到淡淡的木頭香。' },
+        ]
+      },
+      {
+        id: 'hakone-onsen', name: '箱根湯本溫泉旅館', nameEn: 'Hakone Onsen Ryokan',
+        region: '神奈川・箱根', date: '2024.09',
+        thumb: '♨️', thumbBg: 'linear-gradient(135deg,#1a2428,#283448)',
+        desc: '早湯本的老旅館，從露天風呂能看到早雲山的晨霧。秋天的箱根泡湯加上懷石料理，是我每年都想重複的儀式感。',
+        tags: ['露天風呂', '溫泉', '懷石', '早晨'],
+        photos: [
+          { e: '♨️', c: '清晨六點的露天風呂，早雲山的霧氣從山谷中升起。' },
+          { e: '🍂', c: '客房的坪庭，秋天楓葉染紅了石燈籠旁的角落。' },
+          { e: '🍱', c: '懷石料理的前菜，擺盤精緻得讓人捨不得動筷。' },
+        ]
+      },
+    ]
+  },
+
+  'hotel-tw': {
+    name: '旅館（台灣）', nameEn: 'Hotels in Taiwan', icon: '🏠',
+    bg: 'linear-gradient(150deg,#182018,#283028)',
+    places: [
+      {
+        id: 'jiufen-inn', name: '九份山城民宿', nameEn: 'Jiufen Mountain Inn',
+        region: '新北・九份', date: '2024.12',
+        thumb: '🏮', thumbBg: 'linear-gradient(135deg,#2a1010,#3a1818)',
+        desc: '雨天的九份，從民宿窗口看出去是海，遠方是基隆嶼。紅燈籠在霧雨中暈開，這個畫面讓我理解了為什麼宮崎駿會被這裡打動。',
+        tags: ['九份', '紅燈籠', '雨天', '海景'],
+        photos: [
+          { e: '🏮', c: '傍晚的豎崎路，紅燈籠在霧雨中一路蜿蜒向上。' },
+          { e: '🌊', c: '從民宿窗口望向金瓜石方向的山景，遠方是灰色的海。' },
+          { e: '☕', c: '民宿主人自製的薑茶，在濕冷的雨天裡格外暖胃。' },
+        ]
+      },
+      {
+        id: 'taitung-resort', name: '台東海景民宿', nameEn: 'Taitung Ocean View B&B',
+        region: '台東', date: '2024.07',
+        thumb: '🌊', thumbBg: 'linear-gradient(135deg,#102028,#183040)',
+        desc: '面對太平洋的民宿，早晨從床上就能看到日出。台東的慢節奏和乾淨空氣，讓人待了三天之後覺得台北的一切都是不必要的。',
+        tags: ['海景', '日出', '太平洋', '慢活'],
+        photos: [
+          { e: '🌅', c: '從房間望出去的太平洋日出，海天連成一線的遼闊感。' },
+          { e: '🌊', c: '民宿前的石子海灘，清晨退潮後露出的礁石景觀。' },
+          { e: '⭐', c: '台東的夜空沒有光害，可以看到銀河。' },
+        ]
+      },
+    ]
+  },
+
+  'food-jp': {
+    name: '美食（日本）', nameEn: 'Food in Japan', icon: '🍜',
+    bg: 'linear-gradient(150deg,#1e1410,#2e2018)',
+    places: [
+      {
+        id: 'kyoto-kaiseki', name: '京都懷石料理', nameEn: 'Kyoto Kaiseki',
+        region: '京都', date: '2025.03',
+        thumb: '🍱', thumbBg: 'linear-gradient(135deg,#2a1a10,#3a2818)',
+        desc: '在木屋町的一家老舖吃了我這輩子最認真的一頓飯。八道菜、三小時，每一道都在講一個關於當季食材的故事。',
+        tags: ['懷石', '京料理', '當季', '職人'],
+        photos: [
+          { e: '🍱', c: '先付——豆腐田樂與季節野菜，精緻得像一幅畫。' },
+          { e: '🐟', c: '造り——京都的鯖棒壽司，醋漬鯖魚配上昆布高湯的飯。' },
+          { e: '🍵', c: '水物——最後的抹茶布丁，苦甘比例剛剛好。' },
+        ]
+      },
+      {
+        id: 'osaka-ramen', name: '大阪拉麵巡禮', nameEn: 'Osaka Ramen Tour',
+        region: '大阪', date: '2024.11',
+        thumb: '🍜', thumbBg: 'linear-gradient(135deg,#2a1208,#3a2010)',
+        desc: '大阪不以拉麵著名，但這次花了兩天找了五家，從豚骨到醬油系都試了一遍，意外發現大阪有自己獨特的煮干しだし風格。',
+        tags: ['拉麵', '煮干し', '深夜', '一個人'],
+        photos: [
+          { e: '🍜', c: '煮干し系拉麵，濃厚的小魚乾湯頭是大阪本地人的最愛。' },
+          { e: '🥚', c: '半熟玉子，浸在醬油裡的蛋黃濃郁得像奶油。' },
+          { e: '🌙', c: '凌晨的拉麵店，只有幾張吧台座位，安靜地只聽到吸麵聲。' },
+        ]
+      },
+    ]
+  },
+
+  'food-tw': {
+    name: '美食（台灣）', nameEn: 'Food in Taiwan', icon: '🥢',
+    bg: 'linear-gradient(150deg,#1e1a10,#2e2a18)',
+    places: [
+      {
+        id: 'tainan-food', name: '台南老城區美食', nameEn: 'Tainan Old Town Food',
+        region: '台南', date: '2024.08',
+        thumb: '🍤', thumbBg: 'linear-gradient(135deg,#2a2010,#3a3018)',
+        desc: '台南的美食不在餐廳，在巷子裡。牛肉湯、蝦捲、碗粿、棺材板，每一樣都有自己的堅持和歷史。那種用了幾十年的老方法做出來的東西，有種時間的味道。',
+        tags: ['牛肉湯', '蝦捲', '老店', '早餐'],
+        photos: [
+          { e: '🥩', c: '清晨六點的牛肉湯，用溫度剛好的湯燙熟薄切牛肉，是台南的晨間儀式。' },
+          { e: '🍤', c: '老字號的蝦捲，外皮炸得酥脆，內餡鮮甜。' },
+          { e: '🫙', c: '棺材板的鐵板吐司，起士與海鮮的組合是台南才有的奇妙發明。' },
+        ]
+      },
+      {
+        id: 'taichung-market', name: '台中第二市場', nameEn: 'Taichung 2nd Market',
+        region: '台中', date: '2024.12',
+        thumb: '🏮', thumbBg: 'linear-gradient(135deg,#201814,#302820)',
+        desc: '日治時代留下來的市場建築，賣了快百年的麻薏湯和山河魯肉飯。早上七點站著吃，旁邊是阿嬤和菜市仔阿伯，這才是台中的早晨。',
+        tags: ['市場', '麻薏湯', '日式建築', '早市'],
+        photos: [
+          { e: '🏮', c: '第二市場的八角建築，日治時代的紅磚在清晨光線下顯得古樸。' },
+          { e: '🍲', c: '麻薏湯，苦中帶甘的夏季限定，台中人的童年味道。' },
+          { e: '🍚', c: '山河魯肉飯，三層肉的油脂與滷汁把白飯染成金黃色。' },
+        ]
+      },
+    ]
+  },
+
+  taiwan: {
+    name: '台灣日常紀錄', nameEn: 'Taiwan Daily Life', icon: '🌿',
+    bg: 'linear-gradient(150deg,#182020,#243030)',
+    places: [
+      {
+        id: 'taichung-lanes', name: '台中巷弄光影', nameEn: 'Taichung Alley Light',
+        region: '台中', date: '2024.12',
+        thumb: '🏮', thumbBg: 'linear-gradient(135deg,#1a1a28,#28283a)',
+        desc: '用底片感的視角記錄台中的老街巷弄，宮廟前的榕樹、鐵窗花、阿嬤的躺椅。這些東西在台灣太普通了，但換個眼光看，它們就是最有味道的風景。',
+        tags: ['鐵窗花', '宮廟', '騎樓', '日常'],
+        photos: [
+          { e: '🌿', c: '宮廟前的老榕樹，樹根已經把地磚撐裂了，但廟方把它當成神樹供著。' },
+          { e: '🏮', c: '下午三點的騎樓斜光，把日式磨石子地板染成了金色。' },
+          { e: '🌺', c: '鐵窗花——台灣獨有的鐵製裝飾窗，每扇都是手工打造的幾何藝術。' },
+          { e: '🐱', c: '巷子裡的社區貓，在廢棄的木椅上睡得很沉。' },
+        ]
+      },
+      {
+        id: 'dihua', name: '迪化街老屋', nameEn: 'Dihua Street Heritage',
+        region: '台北', date: '2024.09',
+        thumb: '🏛️', thumbBg: 'linear-gradient(135deg,#1e1818,#2e2828)',
+        desc: '斜陽打在南北貨的紅色袋裝上，閩南式與日式的建築混搭出只有台北才有的迷人錯亂。最喜歡下午三四點，光線斜進騎樓，整條街像是被老照片濾過一層。',
+        tags: ['迪化街', '巴洛克', '南北貨', '老屋'],
+        photos: [
+          { e: '🏛️', c: '迪化街的巴洛克立面，閩南傳統建築上加了西式裝飾，是殖民時代的產物。' },
+          { e: '🧧', c: '南北貨的乾貨吊掛，香菇、魷魚、蝦米串成了一面食物的牆。' },
+          { e: '🌅', c: '黃昏的騎樓，夕陽從西側打進來，塵埃在光柱裡漂浮。' },
+          { e: '📸', c: '霞海城隍廟的香爐煙，在藍天的映襯下向上散去。' },
+        ]
+      },
+    ]
+  },
+};
+
+/* ══════════════════════════════════
+   STATE & NAVIGATION
+══════════════════════════════════ */
+let state = { catId: null, placeId: null, photos: [], lbIdx: 0 };
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goHome() {
+  showPage('home');
+  setBreadcrumb([]);
+}
+
+function goAbout() {
+  goHome();
+  setTimeout(() => document.getElementById('about-anchor').scrollIntoView({ behavior: 'smooth' }), 350);
+}
+
+function setBreadcrumb(items) {
+  const el = document.getElementById('breadcrumb');
+  if (!items.length) { el.innerHTML = ''; return; }
+  let html = `<span class="bc-item" onclick="goHome()">首頁</span>`;
+  items.forEach((item, i) => {
+    html += `<span class="bc-sep">›</span>`;
+    if (i === items.length - 1) {
+      html += `<span class="bc-current">${item.label}</span>`;
+    } else {
+      html += `<span class="bc-item" onclick="${item.fn}">${item.label}</span>`;
+    }
+  });
+  el.innerHTML = html;
+}
+
+/* ══════════════════════════════════
+   LAYER 1 → 2: Open Category
+══════════════════════════════════ */
+function openCat(catId) {
+  const cat = DATA[catId];
+  state.catId = catId;
+
+  // Header
+  document.getElementById('cat-header').style.background = cat.bg;
+  document.getElementById('cat-super').textContent = cat.icon + '  良日和 Ryobiyori';
+  document.getElementById('cat-title').textContent = cat.name;
+  document.getElementById('cat-title-en').textContent = cat.nameEn;
+
+  // Place cards
+  document.getElementById('places-grid').innerHTML = cat.places.map(p => `
+    <div class="place-card" onclick="openPlace('${catId}','${p.id}')">
+      <div class="place-thumb" style="background:${p.thumbBg}">${p.thumb}</div>
+      <div class="place-body">
+        <div class="place-region">${p.region}</div>
+        <div class="place-name">${p.name}</div>
+        <div class="place-name-en">${p.nameEn}</div>
+        <div class="place-footer">
+          <span>${p.tags.slice(0,2).map(t => '#' + t).join('  ')}</span>
+          <span>${p.date}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  showPage('cat');
+  setBreadcrumb([
+    { label: cat.name, fn: `openCat('${catId}')` }
+  ]);
+}
+
+/* ══════════════════════════════════
+   LAYER 2 → 3: Open Place Gallery
+══════════════════════════════════ */
+function openPlace(catId, placeId) {
+  const cat = DATA[catId];
+  const place = cat.places.find(p => p.id === placeId);
+  state.catId = catId;
+  state.placeId = placeId;
+  state.photos = place.photos;
+
+  // Header
+  document.getElementById('gal-header').style.background = cat.bg;
+  document.getElementById('gal-super').textContent = cat.icon + '  ' + cat.name;
+  document.getElementById('gal-title').textContent = place.name;
+  document.getElementById('gal-title-en').textContent = place.nameEn;
+
+  // Meta
+  document.getElementById('gal-desc').textContent = place.desc;
+  document.getElementById('gal-date').textContent = place.date;
+  document.getElementById('gal-region').textContent = place.region;
+  document.getElementById('gal-tags').innerHTML = place.tags.map(t => `<span class="gallery-tag">#${t}</span>`).join('');
+
+  // Photos
+  document.getElementById('photo-grid').innerHTML = place.photos.map((ph, i) => `
+    <div class="photo-item" onclick="openLb(${i})">
+      <div class="photo-thumb" style="background:${place.thumbBg}">${ph.e}</div>
+      <div class="photo-cap">
+        <div class="photo-cap-num">No.${String(i+1).padStart(2,'0')}</div>
+        <div class="photo-cap-text">${ph.c}</div>
+      </div>
+    </div>
+  `).join('');
+
+  showPage('gallery');
+  setBreadcrumb([
+    { label: cat.name, fn: `openCat('${catId}')` },
+    { label: place.name, fn: '' }
+  ]);
+}
+
+/* ══════════════════════════════════
+   LIGHTBOX
+══════════════════════════════════ */
+function openLb(i) {
+  state.lbIdx = i;
+  renderLb();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderLb() {
+  const ph = state.photos[state.lbIdx];
+  document.getElementById('lb-img').textContent = ph.e;
+  document.getElementById('lb-caption').textContent = ph.c;
+  document.getElementById('lb-counter').textContent = `${state.lbIdx + 1} / ${state.photos.length}`;
+}
+
+function lbMove(dir) {
+  state.lbIdx = (state.lbIdx + dir + state.photos.length) % state.photos.length;
+  renderLb();
+}
+
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lbBgClick(e) {
+  if (e.target.id === 'lightbox') closeLb();
+}
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowLeft') lbMove(-1);
+  if (e.key === 'ArrowRight') lbMove(1);
+});
+</script>
+</body>
+</html>
