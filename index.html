@@ -385,43 +385,39 @@ const DATA = {
     bg: 'linear-gradient(150deg,#2a1f14,#3d2b1a)',
     places: [
       {
-        id: 'fushimi', name: '伏見稻荷大社', nameEn: 'Fushimi Inari Taisha',
-        region: '京都', date: '2025.03',
-        thumb: '⛩️', thumbBg: 'linear-gradient(135deg,#2a1814,#5a3020)',
-        desc: '凌晨五點抵達，千本鳥居裡只有我一人。光線穿透朱紅，苔蘚帶著露水的氣息，走在裡面像是誤入了某個時間縫隙。爬到山頂的四つ辻，京都盆地在晨霧中漸漸甦醒。',
-        tags: ['早晨', '千本鳥居', '無人', '爬山'],
+        id: 'osu-kanon', name: '大須観音', nameEn: 'Osu Kannon Temple',
+        region: '愛知県・名古屋', date: '2026.03',
+        thumb: 'img', thumbImg: 'images/shrine/osu-kanon-01.jpg',
+        thumbBg: 'linear-gradient(135deg,#2a1814,#5a3020)',
+        desc: '位於名古屋大須商店街旁的古老佛寺，正式名稱為北野山真福寺寶生院。境內古樸寧靜，與周邊熱鬧的商店街形成有趣對比，是名古屋人日常的信仰所在。',
+        tags: ['名古屋', '御朱印', '古剎', '大須'],
         photos: [
-          { e: '⛩️', c: '清晨五點的千本鳥居入口，光線還很低，朱紅色在霧中顯得格外濃烈。' },
-          { e: '🦊', c: '稻荷大神的使者——狐狸石像，這一對守著奧社已有數百年。' },
-          { e: '🌲', c: '鳥居隧道深處，兩側的柳杉遮天蔽日，中午也是陰涼的。' },
-          { e: '🌅', c: '四つ辻的展望台，京都盆地在晨霧中漸漸浮現。' },
-          { e: '📿', c: '路邊的小祠，供奉著油揚豆腐，是給狐狸的供品。' },
-          { e: '🍵', c: '下山後在參道茶屋喝了一杯玉露，苦中帶甘。' },
+          { img: 'images/shrine/osu-kanon-01.jpg', c: '在佛寺正下方仰拍，感受建築的宏偉氣勢。' },
+          { img: 'images/shrine/osu-kanon-02.jpg', c: '從側邊角度捕捉大須観音的建築線條。' },
+          { img: 'images/shrine/osu-kanon-03.jpg', c: '大須観音的御朱印，墨跡飽滿，字體端正有力。' },
+          { img: 'images/shrine/osu-kanon-04.jpg', c: '大須観音的一處角落，靜謐與歲月感並存。' },
+          { img: 'images/shrine/osu-kanon-05.jpg', c: '社務所附近的景色，日常的香火氣息。' },
+          { img: 'images/shrine/osu-kanon-06.jpg', c: '境內的另一處角落，光影交錯間的古意。' },
+          { img: 'images/shrine/osu-kanon-07.jpg', c: '大須観音境內的古老大鐘，歷經歲月仍莊嚴矗立。' },
+          { img: 'images/shrine/osu-kanon-08.jpg', c: '大須観音的細節記錄。' },
         ]
       },
       {
-        id: 'kasuga', name: '春日大社', nameEn: 'Kasuga Taisha',
-        region: '奈良', date: '2024.10',
-        thumb: '🪔', thumbBg: 'linear-gradient(135deg,#1a2010,#3a4020)',
-        desc: '三千盞石燈籠沿著參道排列，萬燈籠祭點燈的瞬間，整條參道從現代瞬間回到了平安時代。苔蘚覆蓋的石燈籠看起來像是從地面自己生長出來的。',
-        tags: ['石燈籠', '苔蘚', '奈良鹿', '萬燈籠祭'],
+        id: 'sutsujigaoka', name: '榴岡天満宮', nameEn: 'Sutsujigaoka Tenmangu',
+        region: '宮城県・仙台市', date: '2025.02',
+        thumb: 'img', thumbImg: 'images/shrine/sutsujigaoka-01.jpg',
+        thumbBg: 'linear-gradient(135deg,#1a2010,#3a4020)',
+        desc: '位於仙台市榴岡公園旁的天満宮，祭祀學問之神菅原道真。冬日參拜時境內鋪著薄雪，御朱印的墨跡在寒意中格外清晰，天神牛石像靜靜守護著參拜者。',
+        tags: ['仙台', '御朱印', '天満宮', '冬日'],
         photos: [
-          { e: '🪔', c: '萬燈籠祭，三千盞燈籠同時點亮的瞬間，像是平安時代的光。' },
-          { e: '🦌', c: '奈良的鹿悠閒地在境內漫步，對人毫無戒心。' },
-          { e: '🌿', c: '苔蘚覆蓋的石燈籠，像是從地底生長出來的古老生命。' },
-          { e: '⛩️', c: '朱紅色的迴廊與石燈籠，春日造建築的精髓。' },
-        ]
-      },
-      {
-        id: 'meiji', name: '明治神宮', nameEn: 'Meiji Jingu',
-        region: '東京', date: '2024.08',
-        thumb: '🌳', thumbBg: 'linear-gradient(135deg,#142014,#203020)',
-        desc: '代代木的70,000棵人工林，讓這裡在東京鬧市中心保有深山的靜謐感。踩著砂利石子路的聲音是這裡最好的背景音樂。',
-        tags: ['東京', '都市森林', '清晨', '砂利'],
-        photos: [
-          { e: '🌳', c: '通往本殿的參道，70,000棵樹形成的綠色隧道。' },
-          { e: '🎋', c: '奉納酒桶與葡萄酒桶並排，是明治天皇喜歡西洋文化的象徵。' },
-          { e: '⛩️', c: '南參道的大鳥居，日本最大的木造明神鳥居之一。' },
+          { img: 'images/shrine/sutsujigaoka-01.jpg', c: '榴岡天満宮的正門，冬日清冷的空氣中莊嚴佇立。' },
+          { img: 'images/shrine/sutsujigaoka-02.jpg', c: '正殿的全貌，傳統的神社建築在枯枝間顯得格外端莊。' },
+          { img: 'images/shrine/sutsujigaoka-03.jpg', c: '從側邊角度記錄天満宮的建築結構與細節。' },
+          { img: 'images/shrine/sutsujigaoka-04.jpg', c: '繪馬牆，每一塊都承載著參拜者的願望與期許。' },
+          { img: 'images/shrine/sutsujigaoka-05.jpg', c: '等候御朱印的牌子，靜靜訴說著排隊等待的時光。' },
+          { img: 'images/shrine/sutsujigaoka-06.jpg', c: '榴岡天満宮的御朱印，朱印與墨字相映成趣。' },
+          { img: 'images/shrine/sutsujigaoka-07.jpg', c: '天神牛的石像，據說撫摸後能消災解厄、增長智慧。' },
+          { img: 'images/shrine/sutsujigaoka-08.jpg', c: '境內的一處角落，冬日寧靜的氛圍讓人心靜。' },
         ]
       },
     ]
@@ -716,7 +712,9 @@ function openCat(catId) {
   // Place cards
   document.getElementById('places-grid').innerHTML = cat.places.map(p => `
     <div class="place-card" onclick="openPlace('${catId}','${p.id}')">
-      <div class="place-thumb" style="background:${p.thumbBg}">${p.thumb}</div>
+      <div class="place-thumb" style="background:${p.thumbBg}">
+        ${p.thumb === 'img' ? `<img src="${p.thumbImg}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;">` : p.thumb}
+      </div>
       <div class="place-body">
         <div class="place-region">${p.region}</div>
         <div class="place-name">${p.name}</div>
@@ -760,7 +758,9 @@ function openPlace(catId, placeId) {
   // Photos
   document.getElementById('photo-grid').innerHTML = place.photos.map((ph, i) => `
     <div class="photo-item" onclick="openLb(${i})">
-      <div class="photo-thumb" style="background:${place.thumbBg}">${ph.e}</div>
+      <div class="photo-thumb" style="background:${place.thumbBg}">
+        ${ph.img ? `<img src="${ph.img}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">` : ph.e}
+      </div>
       <div class="photo-cap">
         <div class="photo-cap-num">No.${String(i+1).padStart(2,'0')}</div>
         <div class="photo-cap-text">${ph.c}</div>
@@ -787,7 +787,12 @@ function openLb(i) {
 
 function renderLb() {
   const ph = state.photos[state.lbIdx];
-  document.getElementById('lb-img').textContent = ph.e;
+  const imgEl = document.getElementById('lb-img');
+  if (ph.img) {
+    imgEl.innerHTML = `<img src="${ph.img}" alt="" style="width:100%;height:100%;object-fit:contain;display:block;background:#1a1612;">`;
+  } else {
+    imgEl.textContent = ph.e;
+  }
   document.getElementById('lb-caption').textContent = ph.c;
   document.getElementById('lb-counter').textContent = `${state.lbIdx + 1} / ${state.photos.length}`;
 }
