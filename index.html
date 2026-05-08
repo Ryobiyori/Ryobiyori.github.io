@@ -124,11 +124,11 @@ nav {
 .gallery-date { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--accent2); font-weight: 600; line-height: 1; }
 .gallery-region-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.05em; }
 
-.photo-grid { padding: clamp(20px,4vw,44px) clamp(16px,5vw,56px); columns: 3 200px; gap: 3px; }
-.photo-item { background: var(--paper2); cursor: pointer; overflow: hidden; break-inside: avoid; margin-bottom: 3px; }
+.photo-grid { padding: clamp(20px,4vw,44px) clamp(16px,5vw,56px); column-count: 3; column-gap: 6px; }
+.photo-item { background: var(--paper2); cursor: pointer; overflow: hidden; break-inside: avoid; margin-bottom: 6px; border-radius: 2px; }
 .photo-thumb { width: 100%; display: block; font-size: 62px; transition: transform 0.4s; line-height: 1; }
 .photo-thumb img { width: 100%; height: auto; display: block; transition: transform 0.4s; }
-.photo-item:hover .photo-thumb img { transform: scale(1.04); }
+.photo-item:hover .photo-thumb img { transform: scale(1.03); }
 .photo-cap { padding: 13px 15px 15px; background: var(--paper); }
 .photo-cap-num { font-family: 'Cormorant Garamond', serif; font-size: 10.5px; color: var(--paper3); margin-bottom: 3px; letter-spacing: 0.08em; }
 .photo-cap-text { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
@@ -179,7 +179,8 @@ footer { border-top: 1px solid var(--border); padding: 26px clamp(16px,5vw,56px)
   .hero-tile:nth-child(1) { grid-row: span 1; }
   .about-grid { grid-template-columns: 1fr; }
   .about-avatar { aspect-ratio: 16/8; }
-  .photo-grid { columns: 2 150px; }
+  .photo-grid { column-count: 2; column-gap: 4px; padding: 16px; }
+  .photo-item { margin-bottom: 4px; }
   .lb-nav { display: none; }
   .nav-links { display: none; }
   .gallery-meta { grid-template-columns: 1fr; }
