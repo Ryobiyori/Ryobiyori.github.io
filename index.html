@@ -7,447 +7,272 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700;800&family=Noto+Sans+TC:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-/* ══ RESET & ROOT ══ */
 :root {
-  --ink: #141210;
-  --paper: #f7f3ed;
-  --paper2: #ede8df;
-  --paper3: #e0d9ce;
-  --accent: #7a3b10;
-  --accent2: #b8692e;
-  --accent3: #d4924d;
-  --muted: #6e6458;
-  --muted2: #9a8f82;
-  --border: rgba(20,18,16,0.08);
-  --border2: rgba(20,18,16,0.15);
-  --white: #ffffff;
-  --ease: cubic-bezier(0.4,0,0.2,1);
-  --ease-out: cubic-bezier(0,0,0.2,1);
+  --ink:#141210; --paper:#f7f3ed; --paper2:#ede8df; --paper3:#e0d9ce;
+  --accent:#7a3b10; --accent2:#b8692e; --accent3:#d4924d;
+  --muted:#6e6458; --muted2:#9a8f82;
+  --border:rgba(20,18,16,0.08); --border2:rgba(20,18,16,0.15);
+  --ease:cubic-bezier(0.4,0,0.2,1); --ease-out:cubic-bezier(0,0,0.2,1);
 }
-*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-html { scroll-behavior:smooth; font-size:16px; }
-body {
-  background:var(--paper);
-  color:var(--ink);
-  font-family:'Noto Sans TC',sans-serif;
-  font-weight:300;
-  line-height:1.75;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-button { font-family:inherit; cursor:pointer; border:none; background:none; }
-a { text-decoration:none; color:inherit; }
-img { display:block; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-weight:300;line-height:1.75;min-height:100vh;overflow-x:hidden;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+a{text-decoration:none;color:inherit;}
+img{display:block;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--accent3);border-radius:2px;}
 
-/* ══ CURSOR ══ */
-.cursor {
-  width:10px; height:10px;
-  background:var(--accent2);
-  border-radius:50%;
-  position:fixed; top:0; left:0;
-  pointer-events:none;
-  z-index:9999;
-  transition:transform 0.15s var(--ease), opacity 0.3s;
-  mix-blend-mode:multiply;
-}
-.cursor-ring {
-  width:36px; height:36px;
-  border:1px solid rgba(184,105,46,0.4);
-  border-radius:50%;
-  position:fixed; top:0; left:0;
-  pointer-events:none;
-  z-index:9998;
-  transition:transform 0.35s var(--ease-out), width 0.3s, height 0.3s, border-color 0.3s;
-}
-body.cursor-hover .cursor { transform:translate(-50%,-50%) scale(2); }
-body.cursor-hover .cursor-ring { width:56px; height:56px; border-color:rgba(184,105,46,0.2); }
+/* CURSOR */
+.cursor{width:10px;height:10px;background:var(--accent2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform 0.15s var(--ease);mix-blend-mode:multiply;}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(184,105,46,0.35);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:transform 0.35s var(--ease-out),width 0.3s,height 0.3s;}
+body.hov .cursor{transform:translate(-50%,-50%) scale(2);}
+body.hov .cursor-ring{width:56px;height:56px;}
 
-/* ══ SCROLLBAR ══ */
-::-webkit-scrollbar { width:3px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:var(--accent3); border-radius:2px; }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,5vw,56px);transition:background 0.4s,border-color 0.4s;border-bottom:1px solid transparent;}
+nav.scrolled{background:rgba(247,243,237,0.93);backdrop-filter:blur(20px);border-color:var(--border);}
+.nav-logo{font-family:'Shippori Mincho',serif;font-size:17px;font-weight:700;letter-spacing:0.08em;display:flex;align-items:baseline;gap:8px;color:var(--ink);}
+.nav-logo-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;font-weight:300;color:var(--muted2);}
+.nav-mid{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px;}
+.bc{cursor:pointer;transition:color 0.2s;padding:2px 3px;}
+.bc:hover{color:var(--accent2);}
+.bc-sep{opacity:0.3;user-select:none;}
+.bc-cur{color:var(--ink);cursor:default;}
+.nav-right{display:flex;align-items:center;gap:6px;}
+.nav-btn{font-size:12px;letter-spacing:0.05em;color:var(--muted);padding:6px 12px;border:1px solid transparent;transition:all 0.2s;}
+.nav-btn:hover{color:var(--ink);border-color:var(--border2);}
+.nav-back{display:none;align-items:center;gap:5px;font-size:12px;color:var(--muted);padding:6px 12px;border:1px solid var(--border);transition:all 0.2s;}
+.nav-back:hover{color:var(--ink);border-color:var(--border2);}
+.nav-back svg{transition:transform 0.2s;}
+.nav-back:hover svg{transform:translateX(-3px);}
+.nav-back.show{display:flex;}
 
-/* ══ NAV ══ */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:500;
-  height:60px;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 clamp(20px,5vw,60px);
-  transition:background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
-  border-bottom:1px solid transparent;
-}
-nav.scrolled {
-  background:rgba(247,243,237,0.92);
-  backdrop-filter:blur(20px);
-  border-color:var(--border);
-}
-.nav-logo {
-  font-family:'Shippori Mincho',serif;
-  font-size:18px; font-weight:700;
-  letter-spacing:0.08em;
-  display:flex; align-items:baseline; gap:10px;
-  color:var(--ink);
-}
-.nav-logo-en {
-  font-family:'Cormorant Garamond',serif;
-  font-style:italic; font-size:13px;
-  font-weight:300; color:var(--muted2);
-  letter-spacing:0.05em;
-}
-.nav-center { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); }
-.nav-center .bc { cursor:pointer; transition:color 0.2s; padding:2px 4px; }
-.nav-center .bc:hover { color:var(--accent2); }
-.nav-center .bc-sep { opacity:0.3; user-select:none; }
-.nav-center .bc-cur { color:var(--ink); cursor:default; }
-.nav-right { display:flex; align-items:center; gap:6px; }
-.nav-btn {
-  font-size:12px; letter-spacing:0.06em; color:var(--muted);
-  padding:7px 14px;
-  border:1px solid transparent;
-  border-radius:2px;
-  transition:color 0.2s, border-color 0.2s, background 0.2s;
-}
-.nav-btn:hover { color:var(--ink); border-color:var(--border2); background:rgba(20,18,16,0.03); }
-.nav-back {
-  display:none; align-items:center; gap:6px;
-  font-size:12px; letter-spacing:0.04em; color:var(--muted);
-  padding:7px 14px;
-  border:1px solid var(--border);
-  border-radius:2px;
-  transition:all 0.2s;
-}
-.nav-back:hover { color:var(--ink); border-color:var(--border2); background:rgba(20,18,16,0.03); }
-.nav-back svg { transition:transform 0.2s; }
-.nav-back:hover svg { transform:translateX(-3px); }
-.nav-back.show { display:flex; }
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;animation:pageIn 0.4s var(--ease-out);}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.65s var(--ease-out),transform 0.65s var(--ease-out);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}
 
-/* ══ PAGE SYSTEM ══ */
-.page { display:none; padding-top:60px; }
-.page.active { display:block; }
-.page-enter { animation:pageIn 0.5s var(--ease-out) both; }
-@keyframes pageIn { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+/* ── HOME HERO ── */
+.new-hero{padding-top:58px;}
+.new-hero-top{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(20px,4vw,56px);align-items:end;
+  padding:clamp(44px,7vw,90px) clamp(16px,5vw,56px) 36px;
+}
+.hero-tag{display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--accent2);margin-bottom:18px;opacity:0;animation:slideUp 0.8s 0.1s var(--ease-out) forwards;}
+.hero-tag::before{content:'';width:22px;height:1px;background:var(--accent2);}
+.hero-title{font-family:'Shippori Mincho',serif;font-size:clamp(44px,6.5vw,88px);font-weight:800;line-height:1.06;letter-spacing:-0.02em;margin-bottom:10px;opacity:0;animation:slideUp 0.9s 0.2s var(--ease-out) forwards;}
+.hero-title-jp{font-family:'Cormorant Garamond',serif;font-size:clamp(13px,1.6vw,18px);font-style:italic;font-weight:300;color:var(--muted);opacity:0;animation:slideUp 0.9s 0.35s var(--ease-out) forwards;}
+.new-hero-desc{font-size:13.5px;color:var(--muted);line-height:2;align-self:end;padding-bottom:2px;opacity:0;animation:slideUp 0.9s 0.5s var(--ease-out) forwards;}
 
-/* ══ HOME HERO ══ */
-.hero {
-  min-height:100svh;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  position:relative;
-  overflow:hidden;
-}
-.hero-left {
-  display:flex; flex-direction:column; justify-content:center;
-  padding:clamp(80px,12vw,140px) clamp(24px,6vw,80px);
-  position:relative; z-index:2;
-}
-.hero-tag {
-  display:flex; align-items:center; gap:10px;
-  font-size:10px; letter-spacing:0.25em; text-transform:uppercase;
-  color:var(--accent2); margin-bottom:28px;
-  opacity:0; animation:slideUp 0.8s 0.1s var(--ease-out) forwards;
-}
-.hero-tag::before { content:''; width:24px; height:1px; background:var(--accent2); }
-.hero-title {
-  font-family:'Shippori Mincho',serif;
-  font-size:clamp(52px,7.5vw,96px);
-  font-weight:800; line-height:1.05;
-  letter-spacing:-0.02em;
-  margin-bottom:16px;
-  opacity:0; animation:slideUp 0.9s 0.25s var(--ease-out) forwards;
-}
-.hero-title-jp {
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(14px,1.8vw,20px);
-  font-style:italic; font-weight:300;
-  color:var(--muted); margin-bottom:36px;
-  opacity:0; animation:slideUp 0.9s 0.4s var(--ease-out) forwards;
-}
-.hero-desc {
-  font-size:13.5px; color:var(--muted);
-  max-width:320px; line-height:2;
-  margin-bottom:48px;
-  opacity:0; animation:slideUp 0.9s 0.55s var(--ease-out) forwards;
-}
-.hero-cta {
-  display:inline-flex; align-items:center; gap:12px;
-  font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
-  color:var(--paper); background:var(--ink);
-  padding:14px 32px;
-  position:relative; overflow:hidden;
-  transition:color 0.4s;
-  opacity:0; animation:slideUp 0.9s 0.7s var(--ease-out) forwards;
-  width:fit-content;
-}
-.hero-cta::before {
-  content:''; position:absolute; inset:0;
-  background:var(--accent); transform:translateX(-101%);
-  transition:transform 0.4s var(--ease);
-}
-.hero-cta:hover::before { transform:translateX(0); }
-.hero-cta span, .hero-cta svg { position:relative; z-index:1; }
-.hero-cta svg { transition:transform 0.3s; }
-.hero-cta:hover svg { transform:translateX(4px); }
+/* PHOTO TILES */
+.hero-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;height:clamp(180px,28vw,340px);opacity:0;animation:fadeIn 1s 0.6s forwards;}
+.hero-tile{position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:flex-end;padding:12px;}
+.hero-tile-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 0.7s var(--ease),filter 0.4s;filter:brightness(0.55);}
+.hero-tile:hover .hero-tile-bg{transform:scale(1.07);filter:brightness(0.72);}
+.hero-tile-label{position:relative;z-index:2;font-family:'Shippori Mincho',serif;font-size:11.5px;color:rgba(255,255,255,0.88);letter-spacing:0.12em;background:rgba(0,0,0,0.22);padding:3px 8px;backdrop-filter:blur(4px);}
 
-.hero-right { position:relative; overflow:hidden; }
-.hero-mosaic { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; height:100%; gap:2px; }
-.hero-tile {
-  position:relative; overflow:hidden;
-  display:flex; align-items:flex-end; padding:20px;
-  cursor:default;
-}
-.hero-tile:nth-child(1) { grid-row:span 2; background:linear-gradient(160deg,#1e1208,#3a2010); }
-.hero-tile:nth-child(2) { background:linear-gradient(160deg,#0e1a0e,#1e2e1e); }
-.hero-tile:nth-child(3) { background:linear-gradient(160deg,#0e0e1e,#1e1e32); }
-.hero-tile-img {
-  position:absolute; inset:0;
-  background-size:cover; background-position:center;
-  transition:transform 0.8s var(--ease), opacity 0.5s;
-  opacity:0.7;
-}
-.hero-tile:hover .hero-tile-img { transform:scale(1.06); opacity:0.85; }
-.hero-tile-label {
-  position:relative; z-index:2;
-  font-family:'Shippori Mincho',serif;
-  font-size:12px; color:rgba(255,255,255,0.7);
-  letter-spacing:0.12em;
-}
-.hero-deco {
-  position:absolute; bottom:-20px; right:-10px;
-  font-family:'Shippori Mincho',serif;
-  font-size:clamp(100px,16vw,200px);
-  color:rgba(20,18,16,0.04); font-weight:800;
-  pointer-events:none; user-select:none; line-height:1;
-}
-.hero-scroll {
-  position:absolute; bottom:32px; left:clamp(24px,6vw,80px);
-  display:flex; align-items:center; gap:12px;
-  font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
-  color:var(--muted2);
-  opacity:0; animation:fadeIn 1s 1.2s forwards;
-}
-.hero-scroll-line {
-  width:40px; height:1px; background:var(--muted2);
-  animation:scrollLine 2s 1.5s var(--ease-out) infinite;
-}
-@keyframes scrollLine {
-  0%{width:40px;opacity:1} 50%{width:60px;opacity:0.6} 100%{width:40px;opacity:1}
-}
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--paper2);padding:12px 0;}
+.marquee{display:flex;white-space:nowrap;animation:marquee 22s linear infinite;}
+.marquee:hover{animation-play-state:paused;}
+.marquee-item{display:inline-flex;align-items:center;gap:18px;padding:0 22px;font-size:10.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted2);}
+.marquee-dot{width:3px;height:3px;border-radius:50%;background:var(--accent3);flex-shrink:0;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ══ MARQUEE ══ */
-.marquee-wrap { overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--paper2); padding:14px 0; }
-.marquee { display:flex; gap:0; white-space:nowrap; animation:marquee 20s linear infinite; }
-.marquee:hover { animation-play-state:paused; }
-.marquee-item { display:inline-flex; align-items:center; gap:20px; padding:0 24px; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted2); }
-.marquee-dot { width:3px; height:3px; border-radius:50%; background:var(--accent3); flex-shrink:0; }
-@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+/* CAT ROWS */
+.cats-list{border-top:1px solid var(--border);}
+.cat-row{width:100%;display:flex;align-items:center;justify-content:space-between;padding:17px clamp(16px,5vw,56px);border-bottom:1px solid var(--border);background:var(--paper);color:var(--ink);text-align:left;transition:background 0.22s,padding-left 0.22s;position:relative;overflow:hidden;}
+.cat-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent2);transform:scaleY(0);transform-origin:bottom;transition:transform 0.28s var(--ease);}
+.cat-row:hover{background:var(--paper2);padding-left:calc(clamp(16px,5vw,56px) + 8px);}
+.cat-row:hover::before{transform:scaleY(1);}
+.cat-row:hover .cat-row-arrow{transform:translateX(5px);opacity:1;}
+.cat-row-left{display:flex;align-items:center;gap:14px;}
+.cat-row-num{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--muted2);letter-spacing:0.08em;width:20px;flex-shrink:0;}
+.cat-row-icon{font-size:20px;flex-shrink:0;}
+.cat-row-name{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:700;line-height:1.3;}
+.cat-row-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11.5px;color:var(--muted2);}
+.cat-row-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.cat-row-count{font-size:11px;color:var(--muted2);letter-spacing:0.04em;}
+.cat-row-arrow{font-size:15px;color:var(--accent2);opacity:0.35;transition:transform 0.22s,opacity 0.22s;}
 
-/* ══ SECTION COMMON ══ */
-.section { padding:clamp(60px,8vw,100px) clamp(20px,5vw,60px); }
-.section-alt { background:var(--paper2); }
-.section-dark { background:var(--ink); color:var(--paper); }
-.sec-hd { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:48px; }
-.sec-label { font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent2); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
-.sec-label::before { content:''; width:18px; height:1px; background:var(--accent2); }
-.sec-title { font-family:'Shippori Mincho',serif; font-size:clamp(24px,3.5vw,36px); font-weight:700; line-height:1.2; }
-.sec-title-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.55em; font-weight:300; color:var(--muted2); margin-left:12px; vertical-align:middle; }
-.sec-link { font-size:11px; letter-spacing:0.08em; color:var(--muted); display:flex; align-items:center; gap:6px; transition:gap 0.2s, color 0.2s; }
-.sec-link:hover { color:var(--accent2); gap:10px; }
+/* LATEST */
+.section{padding:clamp(48px,7vw,80px) clamp(16px,5vw,56px);}
+.section-alt{background:var(--paper2);}
+.section-dark{background:var(--ink);color:var(--paper);}
+.sec-label{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-label::before{content:'';width:16px;height:1px;background:var(--accent2);}
+.sec-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;}
+.sec-title{font-family:'Shippori Mincho',serif;font-size:clamp(22px,3vw,30px);font-weight:700;}
+.sec-title-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.58em;font-weight:300;color:var(--muted2);margin-left:10px;vertical-align:middle;}
+.sec-link{font-size:11px;letter-spacing:0.06em;color:var(--muted);display:flex;align-items:center;gap:6px;transition:gap 0.2s,color 0.2s;}
+.sec-link:hover{color:var(--accent2);gap:10px;}
+.latest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.latest-card{cursor:pointer;overflow:hidden;border:1px solid var(--border);transition:transform 0.3s var(--ease),box-shadow 0.3s;}
+.latest-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(20,18,16,0.1);}
+.latest-thumb{height:150px;overflow:hidden;position:relative;}
+.latest-thumb img,.latest-thumb-emoji{width:100%;height:100%;object-fit:cover;transition:transform 0.5s var(--ease);}
+.latest-thumb-emoji{display:flex;align-items:center;justify-content:center;font-size:48px;}
+.latest-card:hover .latest-thumb img{transform:scale(1.06);}
+.latest-body{padding:12px 14px 16px;}
+.latest-cat{font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2);margin-bottom:5px;}
+.latest-name{font-family:'Shippori Mincho',serif;font-size:14px;font-weight:700;line-height:1.4;margin-bottom:3px;}
+.latest-meta{font-size:10.5px;color:var(--muted2);}
 
-/* ══ CATEGORY GRID ══ */
-.cats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
-.cat-card {
-  background:var(--paper);
-  padding:32px 24px;
-  display:block; width:100%; text-align:left;
-  color:var(--ink);
-  position:relative; overflow:hidden;
-  transition:color 0.35s;
+/* PAGE HEADER */
+.pg-header{min-height:35vh;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(60px,8vw,90px) clamp(16px,5vw,56px) 40px;position:relative;overflow:hidden;color:var(--paper);}
+.pg-header-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(0.32);transition:transform 8s var(--ease);}
+.pg-header:hover .pg-header-bg{transform:scale(1.03);}
+.pg-header-content{position:relative;z-index:2;}
+.pg-header-cat{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(247,243,237,0.5);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.pg-header-cat::before{content:'';width:14px;height:1px;background:rgba(247,243,237,0.4);}
+.pg-header-title{font-family:'Shippori Mincho',serif;font-size:clamp(28px,5vw,52px);font-weight:700;line-height:1.15;margin-bottom:8px;}
+.pg-header-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(13px,1.7vw,18px);font-weight:300;color:rgba(247,243,237,0.38);}
+.pg-header-line{width:44px;height:2px;background:var(--accent2);margin-top:20px;}
+
+/* PLACES GRID */
+.places-wrap{padding:clamp(32px,5vw,56px) clamp(16px,5vw,56px);}
+.places-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+.place-card{background:var(--paper);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:transform 0.32s var(--ease),box-shadow 0.32s;display:block;color:var(--ink);}
+.place-card:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(20,18,16,0.11);}
+.place-thumb{height:195px;overflow:hidden;position:relative;}
+.place-thumb img,.place-thumb-emoji{width:100%;height:100%;object-fit:cover;transition:transform 0.55s var(--ease);}
+.place-thumb-emoji{display:flex;align-items:center;justify-content:center;font-size:60px;}
+.place-card:hover .place-thumb img{transform:scale(1.07);}
+.place-overlay{position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(20,18,16,0.45));opacity:0;transition:opacity 0.32s;}
+.place-card:hover .place-overlay{opacity:1;}
+.place-body{padding:18px 20px 22px;}
+.place-region{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:7px;}
+.place-name{font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;line-height:1.45;margin-bottom:4px;}
+.place-name-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+.place-foot{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:var(--muted2);}
+.place-tags{display:flex;gap:5px;}
+.place-tag{font-size:9.5px;padding:2px 7px;background:var(--paper2);color:var(--muted);}
+
+/* MAPS BUTTON */
+.maps-btn{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--accent2);border:1px solid rgba(184,105,46,0.3);padding:8px 16px;margin-top:16px;transition:all 0.2s;background:none;font-family:inherit;text-decoration:none;}
+.maps-btn:hover{background:rgba(184,105,46,0.06);border-color:var(--accent2);}
+
+/* GALLERY META */
+.gallery-meta{padding:clamp(24px,4vw,44px) clamp(16px,5vw,56px);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;}
+.gallery-desc{font-size:13.5px;color:var(--muted);line-height:2;max-width:560px;}
+.gallery-tags-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+.gallery-tag{font-size:10.5px;padding:4px 11px;border:1px solid var(--border2);color:var(--muted);}
+.gallery-date-blk{text-align:right;padding-top:4px;}
+.gallery-date{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--accent2);font-weight:600;line-height:1;}
+.gallery-region{font-size:11px;color:var(--muted2);margin-top:4px;letter-spacing:0.05em;}
+
+/* PHOTO GRID */
+.photo-wrap{padding:clamp(16px,3vw,36px) clamp(16px,5vw,56px) clamp(60px,8vw,100px);}
+.photo-grid{column-count:3;column-gap:5px;}
+.photo-item{break-inside:avoid;margin-bottom:5px;cursor:pointer;overflow:hidden;position:relative;background:var(--paper2);}
+.photo-item img{width:100%;height:auto;display:block;transition:transform 0.5s var(--ease);}
+.photo-item-overlay{position:absolute;inset:0;background:rgba(20,18,16,0);transition:background 0.32s;display:flex;align-items:flex-end;}
+.photo-item:hover .photo-item-overlay{background:rgba(20,18,16,0.38);}
+.photo-item-cap{padding:12px 14px;color:rgba(247,243,237,0);font-size:11.5px;line-height:1.6;transition:color 0.32s,transform 0.32s;transform:translateY(4px);}
+.photo-item:hover .photo-item-cap{color:rgba(247,243,237,0.9);transform:translateY(0);}
+.photo-item:hover img{transform:scale(1.04);}
+.photo-num{font-size:9px;letter-spacing:0.12em;color:rgba(247,243,237,0.4);margin-bottom:3px;}
+.photo-emoji-box{display:flex;align-items:center;justify-content:center;font-size:56px;aspect-ratio:4/3;}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:800;align-items:center;justify-content:center;padding:clamp(12px,3vw,36px);}
+.lightbox.open{display:flex;}
+.lb-bg{position:absolute;inset:0;background:rgba(14,12,10,0.95);backdrop-filter:blur(8px);cursor:pointer;animation:fadeIn 0.3s;}
+.lb-inner{position:relative;z-index:1;max-width:880px;width:100%;animation:pageIn 0.35s var(--ease-out);}
+.lb-img-wrap{background:#0a0908;display:flex;align-items:center;justify-content:center;max-height:76vh;overflow:hidden;}
+.lb-img-wrap img{max-width:100%;max-height:76vh;width:auto;height:auto;object-fit:contain;display:block;}
+.lb-img-emoji{font-size:96px;padding:72px;}
+.lb-bottom{display:flex;justify-content:space-between;align-items:start;padding:16px 20px;background:#141210;gap:16px;}
+.lb-caption{font-size:13px;color:rgba(247,243,237,0.72);line-height:1.7;flex:1;}
+.lb-counter{font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(247,243,237,0.28);white-space:nowrap;margin-top:2px;}
+.lb-close{position:absolute;top:-44px;right:0;color:rgba(247,243,237,0.5);font-size:11px;letter-spacing:0.1em;display:flex;align-items:center;gap:7px;transition:color 0.2s;}
+.lb-close:hover{color:rgba(247,243,237,0.9);}
+.lb-nav{position:absolute;top:50%;transform:translateY(-55%);display:flex;justify-content:space-between;width:calc(100% + 96px);left:-48px;pointer-events:none;}
+.lb-arrow{pointer-events:all;width:42px;height:42px;border:1px solid rgba(247,243,237,0.12);color:rgba(247,243,237,0.55);display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:15px;}
+.lb-arrow:hover{background:rgba(247,243,237,0.08);color:rgba(247,243,237,0.9);}
+
+/* ABOUT */
+.about-inner{display:grid;grid-template-columns:260px 1fr;gap:clamp(32px,5vw,80px);align-items:start;}
+.about-avatar{width:100%;aspect-ratio:3/4;background:#1e1810;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden;}
+.about-avatar img{width:100%;height:100%;object-fit:cover;}
+.about-avatar::after{content:'良日和';position:absolute;bottom:0;left:0;right:0;padding:14px 18px;background:linear-gradient(transparent,rgba(0,0,0,0.55));font-family:'Shippori Mincho',serif;font-size:12px;color:rgba(255,255,255,0.55);letter-spacing:0.1em;}
+.about-name{font-family:'Shippori Mincho',serif;font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:4px;}
+.about-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:rgba(247,243,237,0.35);margin-bottom:24px;}
+.about-bio{font-size:13.5px;color:rgba(247,243,237,0.6);line-height:2.1;margin-bottom:28px;max-width:480px;}
+.about-bio p+p{margin-top:14px;}
+.stats{display:flex;gap:1px;margin-bottom:28px;}
+.stat{flex:1;background:rgba(247,243,237,0.04);padding:18px 14px;text-align:center;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--accent3);line-height:1;margin-bottom:5px;}
+.stat-lbl{font-size:9.5px;color:rgba(247,243,237,0.3);letter-spacing:0.1em;text-transform:uppercase;}
+.socials{display:flex;gap:9px;flex-wrap:wrap;}
+.social-btn{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;letter-spacing:0.05em;padding:10px 16px;border:1px solid rgba(247,243,237,0.15);color:rgba(247,243,237,0.62);transition:all 0.22s;position:relative;overflow:hidden;}
+.social-btn::before{content:'';position:absolute;inset:0;background:rgba(247,243,237,0.06);transform:scaleX(0);transform-origin:left;transition:transform 0.28s var(--ease);}
+.social-btn:hover{color:var(--paper);border-color:rgba(247,243,237,0.28);}
+.social-btn:hover::before{transform:scaleX(1);}
+.social-btn svg,.social-btn span{position:relative;z-index:1;}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:28px clamp(16px,5vw,56px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;font-size:11px;color:var(--muted2);}
+.footer-logo{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:700;color:var(--ink);}
+.footer-logo span{color:var(--accent2);}
+.footer-center{text-align:center;}
+.footer-right{text-align:right;}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:400;background:rgba(247,243,237,0.96);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom));grid-template-columns:repeat(3,1fr);}
+.bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;letter-spacing:0.06em;color:var(--muted);padding:5px;transition:color 0.2s;}
+.bnav-btn.active{color:var(--accent2);}
+.bnav-btn svg{width:19px;height:19px;}
+.bnav-dot{width:4px;height:4px;border-radius:50%;background:var(--accent2);margin-top:1px;opacity:0;}
+.bnav-btn.active .bnav-dot{opacity:1;}
+
+/* SWIPE HINT */
+.swipe-hint{display:none;text-align:center;font-size:10px;letter-spacing:0.1em;color:var(--muted2);padding:10px 0 0;}
+
+/* MOBILE */
+@media(max-width:768px){
+  .new-hero-top{grid-template-columns:1fr;gap:16px;}
+  .new-hero-desc{display:none;}
+  .hero-tiles{height:clamp(140px,48vw,220px);}
+  .about-inner{grid-template-columns:1fr;}
+  .about-avatar{aspect-ratio:16/9;}
+  .photo-grid{column-count:2;column-gap:3px;}
+  .photo-item{margin-bottom:3px;}
+  .lb-nav{display:none;}
+  .footer{grid-template-columns:1fr;text-align:center;}
+  .footer-right{text-align:center;}
+  nav .nav-btn:not(.nav-back){display:none;}
+  .gallery-meta{grid-template-columns:1fr;}
+  .latest-grid{grid-template-columns:repeat(2,1fr);}
+  .bottom-nav{display:grid;}
+  .swipe-hint{display:block;}
+  body{padding-bottom:64px;}
 }
-.cat-card::before {
-  content:''; position:absolute; inset:0;
-  background:var(--ink); transform:scaleY(0); transform-origin:bottom;
-  transition:transform 0.4s var(--ease);
-}
-.cat-card:hover::before { transform:scaleY(1); }
-.cat-card:hover { color:var(--paper); }
-.cat-card:hover .cat-name-en { color:rgba(247,243,237,0.4); }
-.cat-card:hover .cat-count { color:rgba(247,243,237,0.35); }
-.cat-card > * { position:relative; z-index:1; }
-.cat-icon { font-size:28px; margin-bottom:20px; display:block; }
-.cat-name { font-family:'Shippori Mincho',serif; font-size:16px; font-weight:700; margin-bottom:4px; }
-.cat-name-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:13px; color:var(--muted); margin-bottom:16px; transition:color 0.35s; display:block; }
-.cat-count { font-size:10.5px; color:var(--muted2); letter-spacing:0.06em; transition:color 0.35s; }
-.cat-arrow { position:absolute; bottom:24px; right:24px; opacity:0; transform:translate(-4px,4px); transition:opacity 0.3s, transform 0.3s; font-size:18px; z-index:1; }
-.cat-card:hover .cat-arrow { opacity:0.5; transform:translate(0,0); }
-
-/* ══ ABOUT ══ */
-.about-inner { display:grid; grid-template-columns:280px 1fr; gap:clamp(40px,6vw,90px); align-items:start; }
-.about-img { position:relative; }
-.about-avatar { width:100%; aspect-ratio:3/4; background:#1e1810; display:flex; align-items:center; justify-content:center; font-size:64px; position:relative; overflow:hidden; }
-.about-avatar::after { content:'良日和'; position:absolute; bottom:0; left:0; right:0; padding:16px 20px; background:linear-gradient(transparent,rgba(0,0,0,0.6)); font-family:'Shippori Mincho',serif; font-size:13px; color:rgba(255,255,255,0.6); letter-spacing:0.1em; }
-.about-deco { position:absolute; top:-12px; right:-12px; width:60px; height:60px; border:1px solid rgba(247,243,237,0.2); }
-.about-name { font-family:'Shippori Mincho',serif; font-size:clamp(24px,3vw,36px); font-weight:700; margin-bottom:4px; }
-.about-sub { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:15px; color:rgba(247,243,237,0.35); margin-bottom:28px; }
-.about-bio { font-size:13.5px; color:rgba(247,243,237,0.6); line-height:2.1; margin-bottom:36px; max-width:500px; }
-.about-bio p + p { margin-top:16px; }
-.stats { display:flex; gap:1px; margin-bottom:36px; }
-.stat { flex:1; background:rgba(247,243,237,0.04); padding:20px 16px; text-align:center; }
-.stat-num { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:600; color:var(--accent3); line-height:1; margin-bottom:6px; }
-.stat-lbl { font-size:10px; color:rgba(247,243,237,0.3); letter-spacing:0.1em; text-transform:uppercase; }
-.socials { display:flex; gap:10px; flex-wrap:wrap; }
-.social-btn {
-  display:inline-flex; align-items:center; gap:8px;
-  font-size:11.5px; letter-spacing:0.06em;
-  padding:10px 18px;
-  border:1px solid rgba(247,243,237,0.15);
-  color:rgba(247,243,237,0.65);
-  transition:all 0.25s;
-  position:relative; overflow:hidden;
-}
-.social-btn::before { content:''; position:absolute; inset:0; background:rgba(247,243,237,0.06); transform:scaleX(0); transform-origin:left; transition:transform 0.3s var(--ease); }
-.social-btn:hover { color:var(--paper); border-color:rgba(247,243,237,0.3); }
-.social-btn:hover::before { transform:scaleX(1); }
-.social-btn svg { position:relative; z-index:1; }
-.social-btn span { position:relative; z-index:1; }
-
-/* ══ FOOTER ══ */
-.footer { border-top:1px solid var(--border); padding:32px clamp(20px,5vw,60px); display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:20px; font-size:11.5px; color:var(--muted2); }
-.footer-logo { font-family:'Shippori Mincho',serif; font-size:16px; font-weight:700; color:var(--ink); letter-spacing:0.06em; }
-.footer-logo span { color:var(--accent2); }
-.footer-center { text-align:center; }
-.footer-right { text-align:right; }
-
-/* ══ PAGE HEADER ══ */
-.pg-header {
-  min-height:38vh;
-  display:flex; flex-direction:column; justify-content:flex-end;
-  padding:clamp(60px,8vw,90px) clamp(20px,5vw,60px) 48px;
-  position:relative; overflow:hidden;
-  color:var(--paper);
-}
-.pg-header-bg { position:absolute; inset:0; background-size:cover; background-position:center; filter:brightness(0.35); transition:transform 8s var(--ease); }
-.pg-header:hover .pg-header-bg { transform:scale(1.04); }
-.pg-header-content { position:relative; z-index:2; }
-.pg-header-cat { font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(247,243,237,0.5); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-.pg-header-cat::before { content:''; width:16px; height:1px; background:rgba(247,243,237,0.4); }
-.pg-header-title { font-family:'Shippori Mincho',serif; font-size:clamp(32px,5.5vw,60px); font-weight:700; line-height:1.15; margin-bottom:10px; }
-.pg-header-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(14px,1.8vw,20px); font-weight:300; color:rgba(247,243,237,0.38); }
-.pg-header-line { width:48px; height:2px; background:var(--accent2); margin-top:24px; }
-
-/* ══ PLACES GRID ══ */
-.places-wrap { padding:clamp(40px,5vw,64px) clamp(20px,5vw,60px); }
-.places-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:24px; }
-.place-card {
-  background:var(--paper);
-  border:1px solid var(--border);
-  overflow:hidden;
-  cursor:pointer;
-  transition:transform 0.35s var(--ease), box-shadow 0.35s;
-  display:block; color:var(--ink);
-}
-.place-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(20,18,16,0.12); }
-.place-thumb { height:200px; overflow:hidden; position:relative; }
-.place-thumb img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s var(--ease); }
-.place-thumb-emoji { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:64px; }
-.place-card:hover .place-thumb img { transform:scale(1.07); }
-.place-overlay { position:absolute; inset:0; background:linear-gradient(transparent 40%,rgba(20,18,16,0.5)); opacity:0; transition:opacity 0.35s; }
-.place-card:hover .place-overlay { opacity:1; }
-.place-body { padding:20px 22px 24px; }
-.place-region { font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent2); margin-bottom:8px; }
-.place-name { font-family:'Shippori Mincho',serif; font-size:17px; font-weight:700; line-height:1.45; margin-bottom:4px; }
-.place-name-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:12.5px; color:var(--muted); margin-bottom:14px; }
-.place-foot { display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--muted2); }
-.place-tags { display:flex; gap:6px; }
-.place-tag { font-size:10px; padding:3px 8px; background:var(--paper2); color:var(--muted); border-radius:1px; }
-
-/* ══ GALLERY PAGE ══ */
-.gallery-meta { padding:clamp(28px,4vw,48px) clamp(20px,5vw,60px); border-bottom:1px solid var(--border); display:grid; grid-template-columns:1fr auto; gap:24px; align-items:start; }
-.gallery-desc { font-size:14px; color:var(--muted); line-height:2; max-width:580px; }
-.gallery-tags-row { display:flex; gap:6px; flex-wrap:wrap; margin-top:14px; }
-.gallery-tag { font-size:10.5px; padding:4px 12px; border:1px solid var(--border2); color:var(--muted); letter-spacing:0.04em; }
-.gallery-date-blk { text-align:right; padding-top:4px; }
-.gallery-date { font-family:'Cormorant Garamond',serif; font-size:30px; color:var(--accent2); font-weight:600; line-height:1; }
-.gallery-region { font-size:11px; color:var(--muted2); margin-top:5px; letter-spacing:0.05em; }
-
-/* ══ PHOTO GRID ══ */
-.photo-wrap { padding:clamp(20px,4vw,40px) clamp(20px,5vw,60px); }
-.photo-grid { column-count:3; column-gap:6px; }
-.photo-item { break-inside:avoid; margin-bottom:6px; cursor:pointer; overflow:hidden; position:relative; background:var(--paper2); }
-.photo-item img { width:100%; height:auto; display:block; transition:transform 0.5s var(--ease); }
-.photo-item-overlay { position:absolute; inset:0; background:rgba(20,18,16,0); transition:background 0.35s; display:flex; align-items:flex-end; }
-.photo-item:hover .photo-item-overlay { background:rgba(20,18,16,0.35); }
-.photo-item-cap { padding:14px 16px; color:rgba(247,243,237,0); font-size:12px; line-height:1.6; transition:color 0.35s; transform:translateY(4px); transition:color 0.35s, transform 0.35s; }
-.photo-item:hover .photo-item-cap { color:rgba(247,243,237,0.9); transform:translateY(0); }
-.photo-item:hover img { transform:scale(1.04); }
-.photo-num { font-size:9px; letter-spacing:0.12em; color:rgba(247,243,237,0.45); margin-bottom:4px; }
-
-/* ══ LIGHTBOX ══ */
-.lightbox {
-  display:none; position:fixed; inset:0;
-  z-index:800;
-  align-items:center; justify-content:center;
-  padding:clamp(16px,4vw,40px);
-}
-.lightbox.open { display:flex; }
-.lb-bg { position:absolute; inset:0; background:rgba(14,12,10,0.95); backdrop-filter:blur(8px); cursor:pointer; animation:fadeIn 0.3s; }
-.lb-inner { position:relative; z-index:1; max-width:900px; width:100%; animation:pageIn 0.35s var(--ease-out); }
-.lb-img-wrap { background:#0e0c0a; max-height:78vh; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-.lb-img-wrap img { max-width:100%; max-height:78vh; width:auto; height:auto; object-fit:contain; display:block; }
-.lb-img-emoji { font-size:100px; padding:80px; }
-.lb-bottom { display:flex; justify-content:space-between; align-items:flex-start; padding:18px 22px; background:#141210; gap:20px; }
-.lb-caption { font-size:13.5px; color:rgba(247,243,237,0.75); line-height:1.7; flex:1; }
-.lb-counter { font-family:'Cormorant Garamond',serif; font-size:14px; color:rgba(247,243,237,0.3); white-space:nowrap; margin-top:2px; }
-.lb-close { position:absolute; top:-50px; right:0; color:rgba(247,243,237,0.5); font-size:12px; letter-spacing:0.1em; display:flex; align-items:center; gap:8px; transition:color 0.2s; }
-.lb-close:hover { color:rgba(247,243,237,0.9); }
-.lb-nav { position:absolute; top:50%; transform:translateY(-55%); display:flex; justify-content:space-between; width:calc(100% + 100px); left:-50px; pointer-events:none; }
-.lb-arrow { pointer-events:all; width:44px; height:44px; border:1px solid rgba(247,243,237,0.12); color:rgba(247,243,237,0.6); display:flex; align-items:center; justify-content:center; transition:all 0.2s; font-size:16px; }
-.lb-arrow:hover { background:rgba(247,243,237,0.08); border-color:rgba(247,243,237,0.25); color:rgba(247,243,237,0.9); }
-
-/* ══ ANIMATIONS ══ */
-@keyframes slideUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
-@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
-.reveal.in { opacity:1; transform:translateY(0); }
-.reveal-delay-1 { transition-delay:0.1s; }
-.reveal-delay-2 { transition-delay:0.2s; }
-.reveal-delay-3 { transition-delay:0.3s; }
-
-/* ══ MOBILE ══ */
-@media (max-width:768px) {
-  .hero { grid-template-columns:1fr; min-height:auto; }
-  .hero-right { height:50vw; min-height:200px; }
-  .hero-tile:nth-child(1) { grid-row:span 1; }
-  .cats-grid { grid-template-columns:repeat(2,1fr); }
-  .about-inner { grid-template-columns:1fr; }
-  .about-avatar { aspect-ratio:16/9; }
-  .photo-grid { column-count:2; column-gap:4px; }
-  .photo-item { margin-bottom:4px; }
-  .lb-nav { display:none; }
-  .footer { grid-template-columns:1fr; text-align:center; }
-  .footer-right { text-align:center; }
-  nav .nav-btn:not(.nav-back) { display:none; }
-  .gallery-meta { grid-template-columns:1fr; }
-  .pg-header-title { font-size:clamp(26px,7vw,40px); }
-}
-@media (max-width:480px) {
-  .cats-grid { grid-template-columns:1fr 1fr; }
-  .photo-grid { column-count:2; }
+@media(max-width:480px){
+  .photo-grid{column-count:2;}
+  .hero-tiles{grid-template-columns:repeat(3,1fr);}
 }
 </style>
 </head>
 <body>
 
-<!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-ring" id="cring"></div>
 
 <!-- NAV -->
 <nav id="nav">
   <button class="nav-logo" onclick="goHome()">良日和<span class="nav-logo-en">Ryobiyori</span></button>
-  <div class="nav-center" id="breadcrumb"></div>
+  <div class="nav-mid" id="breadcrumb"></div>
   <div class="nav-right">
-    <button class="nav-back" id="navBack" onclick="goBack()">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    <button class="nav-back show" id="navBack" onclick="goBack()" style="display:none">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8 2L3 6.5 8 11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
       返回
     </button>
     <button class="nav-btn" onclick="goHome()">首頁</button>
@@ -457,147 +282,89 @@ nav.scrolled {
 
 <!-- ══ HOME ══ -->
 <div class="page active" id="page-home">
-
-  <section class="hero">
-    <div class="hero-left">
-      <div class="hero-tag">旅行記錄 · Travel Journal</div>
-      <h1 class="hero-title">良い日和<br>の記録</h1>
-      <div class="hero-title-jp">Notes from good days of travel</div>
-      <p class="hero-desc">在好天氣出發的日子裡，用鏡頭留下神社的鳥居、城的天守、旅館的晨光，以及台灣街角的日常光影。</p>
-      <button class="hero-cta" onclick="document.getElementById('home-cats').scrollIntoView({behavior:'smooth'})">
-        <span>開始探索</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-      </button>
-      <div class="hero-deco">和</div>
+  <section class="new-hero">
+    <div class="new-hero-top">
+      <div class="new-hero-text">
+        <div class="hero-tag">旅行記錄 · Travel Journal</div>
+        <h1 class="hero-title">良い日和<br>の記録</h1>
+        <p class="hero-title-jp">Notes from good days of travel</p>
+      </div>
+      <p class="new-hero-desc">在好天氣出發的日子裡，用鏡頭留下神社的鳥居、城的天守、旅館的晨光，以及台灣街角的日常光影。</p>
     </div>
-    <div class="hero-right">
-      <div class="hero-mosaic">
-        <div class="hero-tile">
-          <div class="hero-tile-img" style="background:linear-gradient(160deg,#1e1208,#3a2010)"></div>
-          <div style="font-size:48px;position:relative;z-index:2">⛩️</div>
-          <div class="hero-tile-label">神社</div>
-        </div>
-        <div class="hero-tile">
-          <div class="hero-tile-img" style="background:linear-gradient(160deg,#0e1a0e,#1e2e1e)"></div>
-          <div style="font-size:36px;position:relative;z-index:2">🏯</div>
-          <div class="hero-tile-label">日本城</div>
-        </div>
-        <div class="hero-tile">
-          <div class="hero-tile-img" style="background:linear-gradient(160deg,#0e0e1e,#1e1e32)"></div>
-          <div style="font-size:36px;position:relative;z-index:2">🌿</div>
-          <div class="hero-tile-label">台灣</div>
-        </div>
+
+    <!-- PHOTO TILES: clickable shortcuts -->
+    <div class="hero-tiles">
+      <div class="hero-tile" onclick="openCat('shrine')">
+        <div class="hero-tile-bg" style="background-image:url('images/shrine/osu-kanon-01.jpg');background:linear-gradient(160deg,#1e1208,#3a2010)"></div>
+        <div class="hero-tile-label">神社巡禮</div>
+      </div>
+      <div class="hero-tile" onclick="openCat('castle')">
+        <div class="hero-tile-bg" style="background:linear-gradient(160deg,#0e1a0e,#1e2e1e)"></div>
+        <div class="hero-tile-label">日本城</div>
+      </div>
+      <div class="hero-tile" onclick="openCat('taiwan')">
+        <div class="hero-tile-bg" style="background:linear-gradient(160deg,#0e0e1e,#1e1e32)"></div>
+        <div class="hero-tile-label">台灣日常</div>
       </div>
     </div>
-    <div class="hero-scroll">
-      <div class="hero-scroll-line"></div>
-      scroll
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+      <div class="marquee">
+        <span class="marquee-item"><span class="marquee-dot"></span>神社巡禮</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>日本城</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>旅館記錄</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>日本美食</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>台灣日常</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>御朱印</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Shrine Walk</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Castles</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Ryokan</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Taiwan Life</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>神社巡禮</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>日本城</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>旅館記錄</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>日本美食</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>台灣日常</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>御朱印</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Shrine Walk</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Castles</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Ryokan</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Taiwan Life</span>
+      </div>
+    </div>
+
+    <!-- CAT ROWS -->
+    <div class="cats-list" id="home-cats">
+      <button class="cat-row" onclick="openCat('shrine')"><div class="cat-row-left"><span class="cat-row-num">01</span><span class="cat-row-icon">⛩️</span><div><div class="cat-row-name">神社巡禮</div><div class="cat-row-en">Shrine Walk</div></div></div><div class="cat-row-right"><span class="cat-row-count">2 地點</span><span class="cat-row-arrow">→</span></div></button>
+      <button class="cat-row" onclick="openCat('castle')"><div class="cat-row-left"><span class="cat-row-num">02</span><span class="cat-row-icon">🏯</span><div><div class="cat-row-name">日本城</div><div class="cat-row-en">Castles of Japan</div></div></div><div class="cat-row-right"><span class="cat-row-count">3 地點</span><span class="cat-row-arrow">→</span></div></button>
+      <button class="cat-row" onclick="openCat('japan')"><div class="cat-row-left"><span class="cat-row-num">03</span><span class="cat-row-icon">🗾</span><div><div class="cat-row-name">日本旅遊紀錄</div><div class="cat-row-en">Japan Travel</div></div></div><div class="cat-row-right"><span class="cat-row-count">2 地點</span><span class="cat-row-arrow">→</span></div></button>
+      <button class="cat-row" onclick="openCat('hotel-jp')"><div class="cat-row-left"><span class="cat-row-num">04</span><span class="cat-row-icon">🏨</span><div><div class="cat-row-name">旅館（日本）</div><div class="cat-row-en">Hotels in Japan</div></div></div><div class="cat-row-right"><span class="cat-row-count">2 旅館</span><span class="cat-row-arrow">→</span></div></button>
+      <button class="cat-row" onclick="openCat('hotel-tw')"><div class="cat-row-left"><span class="cat-row-num">05</span><span class="cat-row-icon">🏠</span><div><div class="cat-row-name">旅館（台灣）</div><div class="cat-row-en">Hotels in Taiwan</div></div></div><div class="cat-row-right"><span class="cat-row-count">2 旅館</span><span class="cat-row-arrow">→</span></div></button>
+      <button class="cat-row" onclick="openCat('food-jp')"><div class="cat-row-left"><span class="cat-row-num">06</span><span class="cat-row-icon">🍜</span><div><div class="cat-row-name">美食（日本）</div><div class="cat-row-en">Food in Japan</div></div></div><div class="cat-row-right"><span class="cat-row-count">2 地方</span><span class="cat-row-arrow">→</span></div></button>
+      <button class="cat-row" onclick="openCat('food-tw')"><div class="cat-row-left"><span class="cat-row-num">07</span><span class="cat-row-icon">🥢</span><div><div class="cat-row-name">美食（台灣）</div><div class="cat-row-en">Food in Taiwan</div></div></div><div class="cat-row-right"><span class="cat-row-count">2 地方</span><span class="cat-row-arrow">→</span></div></button>
+      <button class="cat-row" onclick="openCat('taiwan')"><div class="cat-row-left"><span class="cat-row-num">08</span><span class="cat-row-icon">🌿</span><div><div class="cat-row-name">台灣日常紀錄</div><div class="cat-row-en">Taiwan Daily Life</div></div></div><div class="cat-row-right"><span class="cat-row-count">2 地點</span><span class="cat-row-arrow">→</span></div></button>
     </div>
   </section>
 
-  <!-- MARQUEE -->
-  <div class="marquee-wrap">
-    <div class="marquee">
-      <span class="marquee-item"><span class="marquee-dot"></span>神社巡禮</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>日本城</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>旅館記錄</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>日本美食</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>台灣日常</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>御朱印</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>Shrine Walk</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>Castles</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>Ryokan</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>Taiwan Life</span>
-      <!-- duplicate for loop -->
-      <span class="marquee-item"><span class="marquee-dot"></span>神社巡禮</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>日本城</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>旅館記錄</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>日本美食</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>台灣日常</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>御朱印</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>Shrine Walk</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>Castles</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>Ryokan</span>
-      <span class="marquee-item"><span class="marquee-dot"></span>Taiwan Life</span>
-    </div>
-  </div>
-
-  <!-- CATEGORIES -->
-  <section class="section section-alt" id="home-cats">
+  <!-- LATEST -->
+  <section class="section section-alt">
     <div class="sec-hd reveal">
       <div>
-        <div class="sec-label">Categories</div>
-        <h2 class="sec-title">分類<span class="sec-title-en">All Categories</span></h2>
+        <div class="sec-label">Recently Added</div>
+        <h2 class="sec-title">最新更新<span class="sec-title-en">Latest</span></h2>
       </div>
     </div>
-    <div class="cats-grid">
-      <button class="cat-card reveal" onclick="openCat('shrine')">
-        <span class="cat-icon">⛩️</span>
-        <div class="cat-name">神社巡禮</div>
-        <span class="cat-name-en">Shrine Walk</span>
-        <div class="cat-count">2 個地點</div>
-        <div class="cat-arrow">→</div>
-      </button>
-      <button class="cat-card reveal reveal-delay-1" onclick="openCat('castle')">
-        <span class="cat-icon">🏯</span>
-        <div class="cat-name">日本城</div>
-        <span class="cat-name-en">Castles of Japan</span>
-        <div class="cat-count">3 個地點</div>
-        <div class="cat-arrow">→</div>
-      </button>
-      <button class="cat-card reveal reveal-delay-2" onclick="openCat('japan')">
-        <span class="cat-icon">🗾</span>
-        <div class="cat-name">日本旅遊紀錄</div>
-        <span class="cat-name-en">Japan Travel</span>
-        <div class="cat-count">2 個地點</div>
-        <div class="cat-arrow">→</div>
-      </button>
-      <button class="cat-card reveal reveal-delay-3" onclick="openCat('hotel-jp')">
-        <span class="cat-icon">🏨</span>
-        <div class="cat-name">旅館（日本）</div>
-        <span class="cat-name-en">Hotels in Japan</span>
-        <div class="cat-count">2 間旅館</div>
-        <div class="cat-arrow">→</div>
-      </button>
-      <button class="cat-card reveal" onclick="openCat('hotel-tw')">
-        <span class="cat-icon">🏠</span>
-        <div class="cat-name">旅館（台灣）</div>
-        <span class="cat-name-en">Hotels in Taiwan</span>
-        <div class="cat-count">2 間旅館</div>
-        <div class="cat-arrow">→</div>
-      </button>
-      <button class="cat-card reveal reveal-delay-1" onclick="openCat('food-jp')">
-        <span class="cat-icon">🍜</span>
-        <div class="cat-name">美食（日本）</div>
-        <span class="cat-name-en">Food in Japan</span>
-        <div class="cat-count">2 個地方</div>
-        <div class="cat-arrow">→</div>
-      </button>
-      <button class="cat-card reveal reveal-delay-2" onclick="openCat('food-tw')">
-        <span class="cat-icon">🥢</span>
-        <div class="cat-name">美食（台灣）</div>
-        <span class="cat-name-en">Food in Taiwan</span>
-        <div class="cat-count">2 個地方</div>
-        <div class="cat-arrow">→</div>
-      </button>
-      <button class="cat-card reveal reveal-delay-3" onclick="openCat('taiwan')">
-        <span class="cat-icon">🌿</span>
-        <div class="cat-name">台灣日常紀錄</div>
-        <span class="cat-name-en">Taiwan Daily Life</span>
-        <div class="cat-count">2 個地點</div>
-        <div class="cat-arrow">→</div>
-      </button>
-    </div>
+    <div class="latest-grid" id="latest-grid"></div>
   </section>
 
   <!-- ABOUT -->
   <section class="section section-dark" id="about-anchor">
     <div class="about-inner">
-      <div class="about-img reveal">
+      <div class="reveal">
         <div class="about-avatar">🧳</div>
-        <div class="about-deco"></div>
       </div>
-      <div class="reveal reveal-delay-1">
+      <div class="reveal d1">
         <div class="sec-label" style="color:rgba(247,243,237,0.4)">About</div>
         <div class="about-name">良日和</div>
         <div class="about-sub">Ryobiyori — traveller & photographer</div>
@@ -612,16 +379,16 @@ nav.scrolled {
           <div class="stat"><div class="stat-num">80+</div><div class="stat-lbl">旅遊地點</div></div>
         </div>
         <div class="socials">
-          <a class="social-btn" href="https://www.threads.net/" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.73.96-6.765 2.854-9.022C6.228 1.04 8.962 0 12.493 0c3.438 0 6.098.924 7.912 2.747 1.683 1.69 2.544 4.035 2.562 6.97l.005.153-2.898.136-.005-.152c-.035-4.564-2.542-6.954-7.576-6.954-2.73 0-4.863.836-6.342 2.484-1.393 1.554-2.1 3.794-2.1 6.657 0 2.844.63 5.002 1.875 6.415 1.218 1.38 3.008 2.081 5.318 2.081 1.613 0 2.9-.352 3.828-1.047.89-.667 1.496-1.697 1.804-3.062.1-.443.147-.895.147-1.344 0-.34-.02-.677-.059-1.006a7.08 7.08 0 0 0-.169-.945 5.19 5.19 0 0 0-.326-.884c-.136-.294-.31-.566-.516-.808a3.2 3.2 0 0 0-.755-.622 3.55 3.55 0 0 0-1.028-.378 5.6 5.6 0 0 0-1.32-.136 4.2 4.2 0 0 0-2.078.522 3.93 3.93 0 0 0-1.459 1.432c-.355.602-.535 1.3-.535 2.072 0 .756.168 1.44.5 2.03.323.576.773 1.027 1.339 1.34.548.303 1.165.457 1.836.457.634 0 1.216-.148 1.73-.44l.005-.003.013-.007 1.28 2.541-.013.007c-.82.46-1.794.694-2.896.694a6.38 6.38 0 0 1-3.09-.763 5.95 5.95 0 0 1-2.185-2.128c-.534-.912-.805-1.952-.805-3.094 0-1.177.298-2.255.884-3.203a6.17 6.17 0 0 1 2.41-2.268 7.05 7.05 0 0 1 3.362-.81c.693 0 1.35.077 1.956.228.61.153 1.16.38 1.64.676.488.3.92.666 1.286 1.09.372.432.688.924.94 1.463.251.537.44 1.114.562 1.717.12.598.182 1.21.182 1.82 0 .586-.063 1.176-.186 1.753-.398 1.764-1.257 3.167-2.554 4.17-1.268.983-2.904 1.48-4.868 1.48z"/></svg>
+          <a class="social-btn" href="https://www.threads.net/@ryobiyori" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.73.96-6.765 2.854-9.022C6.228 1.04 8.962 0 12.493 0c3.438 0 6.098.924 7.912 2.747 1.683 1.69 2.544 4.035 2.562 6.97l.005.153-2.898.136-.005-.152c-.035-4.564-2.542-6.954-7.576-6.954-2.73 0-4.863.836-6.342 2.484-1.393 1.554-2.1 3.794-2.1 6.657 0 2.844.63 5.002 1.875 6.415 1.218 1.38 3.008 2.081 5.318 2.081 1.613 0 2.9-.352 3.828-1.047.89-.667 1.496-1.697 1.804-3.062.1-.443.147-.895.147-1.344 0-.34-.02-.677-.059-1.006a7.08 7.08 0 0 0-.169-.945 5.19 5.19 0 0 0-.326-.884c-.136-.294-.31-.566-.516-.808a3.2 3.2 0 0 0-.755-.622 3.55 3.55 0 0 0-1.028-.378 5.6 5.6 0 0 0-1.32-.136 4.2 4.2 0 0 0-2.078.522 3.93 3.93 0 0 0-1.459 1.432c-.355.602-.535 1.3-.535 2.072 0 .756.168 1.44.5 2.03.323.576.773 1.027 1.339 1.34.548.303 1.165.457 1.836.457.634 0 1.216-.148 1.73-.44l.005-.003.013-.007 1.28 2.541-.013.007c-.82.46-1.794.694-2.896.694a6.38 6.38 0 0 1-3.09-.763 5.95 5.95 0 0 1-2.185-2.128c-.534-.912-.805-1.952-.805-3.094 0-1.177.298-2.255.884-3.203a6.17 6.17 0 0 1 2.41-2.268 7.05 7.05 0 0 1 3.362-.81c.693 0 1.35.077 1.956.228.61.153 1.16.38 1.64.676.488.3.92.666 1.286 1.09.372.432.688.924.94 1.463.251.537.44 1.114.562 1.717.12.598.182 1.21.182 1.82 0 .586-.063 1.176-.186 1.753-.398 1.764-1.257 3.167-2.554 4.17-1.268.983-2.904 1.48-4.868 1.48z"/></svg>
             <span>Threads</span>
           </a>
-          <a class="social-btn" href="https://www.instagram.com/" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+          <a class="social-btn" href="https://www.instagram.com/ryobiyori" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
             <span>Instagram</span>
           </a>
-          <a class="social-btn" href="mailto:">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          <a class="social-btn" href="mailto:ryobiyori@gmail.com">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
             <span>聯絡我</span>
           </a>
         </div>
@@ -631,19 +398,19 @@ nav.scrolled {
 
   <footer class="footer">
     <div class="footer-logo">良日<span>和</span></div>
-    <div class="footer-center" style="font-size:11px;">© 2025 ryobiyori.github.io</div>
-    <div class="footer-right" style="font-size:11px;letter-spacing:0.06em;">神社 · 城 · 旅館 · 台灣</div>
+    <div class="footer-center">© 2025 ryobiyori.github.io</div>
+    <div class="footer-right" style="letter-spacing:0.05em;">神社 · 城 · 旅館 · 台灣</div>
   </footer>
 </div>
 
 <!-- ══ CATEGORY PAGE ══ -->
 <div class="page" id="page-cat">
   <div class="pg-header" id="cat-header">
-    <div class="pg-header-bg" id="cat-header-bg"></div>
+    <div class="pg-header-bg" id="cat-bg"></div>
     <div class="pg-header-content">
       <div class="pg-header-cat" id="cat-super"></div>
       <h1 class="pg-header-title" id="cat-title"></h1>
-      <div class="pg-header-en" id="cat-title-en"></div>
+      <div class="pg-header-en" id="cat-en"></div>
       <div class="pg-header-line"></div>
     </div>
   </div>
@@ -655,17 +422,21 @@ nav.scrolled {
 <!-- ══ GALLERY PAGE ══ -->
 <div class="page" id="page-gallery">
   <div class="pg-header" id="gal-header">
-    <div class="pg-header-bg" id="gal-header-bg"></div>
+    <div class="pg-header-bg" id="gal-bg"></div>
     <div class="pg-header-content">
       <div class="pg-header-cat" id="gal-super"></div>
       <h1 class="pg-header-title" id="gal-title"></h1>
-      <div class="pg-header-en" id="gal-title-en"></div>
+      <div class="pg-header-en" id="gal-en"></div>
       <div class="pg-header-line"></div>
     </div>
   </div>
   <div class="gallery-meta">
     <div>
       <p class="gallery-desc" id="gal-desc"></p>
+      <a class="maps-btn" id="gal-maps" href="#" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        在 Google Maps 查看
+      </a>
       <div class="gallery-tags-row" id="gal-tags"></div>
     </div>
     <div class="gallery-date-blk">
@@ -673,6 +444,7 @@ nav.scrolled {
       <div class="gallery-region" id="gal-region"></div>
     </div>
   </div>
+  <div class="swipe-hint">← 左右滑動切換照片 →</div>
   <div class="photo-wrap">
     <div class="photo-grid" id="photo-grid"></div>
   </div>
@@ -683,7 +455,7 @@ nav.scrolled {
   <div class="lb-bg" onclick="closeLb()"></div>
   <div class="lb-inner">
     <button class="lb-close" onclick="closeLb()">
-      <svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.2"/></svg>
+      <svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 1l9 9M10 1L1 10" stroke="currentColor" stroke-width="1.2"/></svg>
       Close
     </button>
     <div class="lb-img-wrap" id="lb-img"></div>
@@ -698,223 +470,208 @@ nav.scrolled {
   </div>
 </div>
 
+<!-- BOTTOM NAV -->
+<div class="bottom-nav" id="bottomNav">
+  <button class="bnav-btn active" id="bn-home" onclick="goHome()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    首頁
+    <div class="bnav-dot"></div>
+  </button>
+  <button class="bnav-btn" id="bn-cats" onclick="document.getElementById('home-cats').scrollIntoView({behavior:'smooth'});goHome()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    分類
+    <div class="bnav-dot"></div>
+  </button>
+  <button class="bnav-btn" id="bn-about" onclick="goAbout()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    關於我
+    <div class="bnav-dot"></div>
+  </button>
+</div>
+
 <script>
-/* ══════════════════════════
-   DATA
-══════════════════════════ */
+/* ══ DATA ══ */
 const DATA = {
-  shrine: {
-    name:'神社巡禮', nameEn:'Shrine Walk', icon:'⛩️',
+  shrine:{
+    name:'神社巡禮',nameEn:'Shrine Walk',icon:'⛩️',
     bg:'linear-gradient(150deg,#2a1f14,#3d2b1a)',
     places:[
-      {
-        id:'osu-kanon', name:'大須観音', nameEn:'Osu Kannon Temple',
-        region:'愛知県・名古屋', date:'2026.03',
-        thumbImg:'images/shrine/osu-kanon-01.jpg',
-        thumbBg:'linear-gradient(135deg,#2a1814,#5a3020)',
-        desc:'位於名古屋大須商店街旁的古老佛寺，正式名稱為北野山真福寺寶生院。境內古樸寧靜，與周邊熱鬧的商店街形成有趣對比，是名古屋人日常的信仰所在。',
-        tags:['名古屋','御朱印','古剎','大須'],
-        photos:[
-          {img:'images/shrine/osu-kanon-01.jpg', c:'在佛寺正下方仰拍，感受建築的宏偉氣勢。'},
-          {img:'images/shrine/osu-kanon-02.jpg', c:'從側邊角度捕捉大須観音的建築線條。'},
-          {img:'images/shrine/osu-kanon-03.jpg', c:'大須観音的御朱印，墨跡飽滿，字體端正有力。'},
-          {img:'images/shrine/osu-kanon-04.jpg', c:'大須観音的一處角落，靜謐與歲月感並存。'},
-          {img:'images/shrine/osu-kanon-05.jpg', c:'社務所附近的景色，日常的香火氣息。'},
-          {img:'images/shrine/osu-kanon-06.jpg', c:'境內的另一處角落，光影交錯間的古意。'},
-          {img:'images/shrine/osu-kanon-07.jpg', c:'大須観音境內的古老大鐘，歷經歲月仍莊嚴矗立。'},
-          {img:'images/shrine/osu-kanon-08.jpg', c:'大須観音的細節記錄。'},
-        ]
-      },
-      {
-        id:'sutsujigaoka', name:'榴岡天満宮', nameEn:'Sutsujigaoka Tenmangu',
-        region:'宮城県・仙台市', date:'2025.02',
-        thumbImg:'images/shrine/sutsujigaoka-01.jpg',
-        thumbBg:'linear-gradient(135deg,#1a2010,#3a4020)',
-        desc:'位於仙台市榴岡公園旁的天満宮，祭祀學問之神菅原道真。冬日參拜時境內鋪著薄雪，御朱印的墨跡在寒意中格外清晰，天神牛石像靜靜守護著參拜者。',
-        tags:['仙台','御朱印','天満宮','冬日'],
-        photos:[
-          {img:'images/shrine/sutsujigaoka-01.jpg', c:'榴岡天満宮的正門，冬日清冷的空氣中莊嚴佇立。'},
-          {img:'images/shrine/sutsujigaoka-02.jpg', c:'正殿的全貌，傳統的神社建築在枯枝間顯得格外端莊。'},
-          {img:'images/shrine/sutsujigaoka-03.jpg', c:'從側邊角度記錄天満宮的建築結構與細節。'},
-          {img:'images/shrine/sutsujigaoka-04.jpg', c:'繪馬牆，每一塊都承載著參拜者的願望與期許。'},
-          {img:'images/shrine/sutsujigaoka-05.jpg', c:'等候御朱印的牌子，靜靜訴說著排隊等待的時光。'},
-          {img:'images/shrine/sutsujigaoka-06.jpg', c:'榴岡天満宮的御朱印，朱印與墨字相映成趣。'},
-          {img:'images/shrine/sutsujigaoka-07.jpg', c:'天神牛的石像，據說撫摸後能消災解厄、增長智慧。'},
-          {img:'images/shrine/sutsujigaoka-08.jpg', c:'境內的一處角落，冬日寧靜的氛圍讓人心靜。'},
-        ]
-      },
-    ]
-  },
-  castle:{
-    name:'日本城', nameEn:'Castles of Japan', icon:'🏯',
-    bg:'linear-gradient(150deg,#1a2518,#2e3d28)',
+      {id:'osu-kanon',name:'大須観音',nameEn:'Osu Kannon Temple',region:'愛知県・名古屋',date:'2026.03',
+       thumbImg:'images/shrine/osu-kanon-01.jpg',thumbBg:'linear-gradient(135deg,#2a1814,#5a3020)',
+       mapsUrl:'https://maps.google.com/?q=大須観音+名古屋',
+       desc:'位於名古屋大須商店街旁的古老佛寺，正式名稱為北野山真福寺寶生院。境內古樸寧靜，與周邊熱鬧的商店街形成有趣對比，是名古屋人日常的信仰所在。',
+       tags:['名古屋','御朱印','古剎','大須'],
+       photos:[
+         {img:'images/shrine/osu-kanon-01.jpg',c:'在佛寺正下方仰拍，感受建築的宏偉氣勢。'},
+         {img:'images/shrine/osu-kanon-02.jpg',c:'從側邊角度捕捉大須観音的建築線條。'},
+         {img:'images/shrine/osu-kanon-03.jpg',c:'大須観音的御朱印，墨跡飽滿，字體端正有力。'},
+         {img:'images/shrine/osu-kanon-04.jpg',c:'大須観音的一處角落，靜謐與歲月感並存。'},
+         {img:'images/shrine/osu-kanon-05.jpg',c:'社務所附近的景色，日常的香火氣息。'},
+         {img:'images/shrine/osu-kanon-06.jpg',c:'境內的另一處角落，光影交錯間的古意。'},
+         {img:'images/shrine/osu-kanon-07.jpg',c:'大須観音境內的古老大鐘，歷經歲月仍莊嚴矗立。'},
+         {img:'images/shrine/osu-kanon-08.jpg',c:'大須観音的細節記錄。'},
+       ]},
+      {id:'sutsujigaoka',name:'榴岡天満宮',nameEn:'Sutsujigaoka Tenmangu',region:'宮城県・仙台市',date:'2025.02',
+       thumbImg:'images/shrine/sutsujigaoka-01.jpg',thumbBg:'linear-gradient(135deg,#1a2010,#3a4020)',
+       mapsUrl:'https://maps.google.com/?q=榴岡天満宮+仙台',
+       desc:'位於仙台市榴岡公園旁的天満宮，祭祀學問之神菅原道真。冬日參拜時境內鋪著薄雪，御朱印的墨跡在寒意中格外清晰，天神牛石像靜靜守護著參拜者。',
+       tags:['仙台','御朱印','天満宮','冬日'],
+       photos:[
+         {img:'images/shrine/sutsujigaoka-01.jpg',c:'榴岡天満宮的正門，冬日清冷的空氣中莊嚴佇立。'},
+         {img:'images/shrine/sutsujigaoka-02.jpg',c:'正殿的全貌，傳統的神社建築在枯枝間顯得格外端莊。'},
+         {img:'images/shrine/sutsujigaoka-03.jpg',c:'從側邊角度記錄天満宮的建築結構與細節。'},
+         {img:'images/shrine/sutsujigaoka-04.jpg',c:'繪馬牆，每一塊都承載著參拜者的願望與期許。'},
+         {img:'images/shrine/sutsujigaoka-05.jpg',c:'等候御朱印的牌子，靜靜訴說著排隊等待的時光。'},
+         {img:'images/shrine/sutsujigaoka-06.jpg',c:'榴岡天満宮的御朱印，朱印與墨字相映成趣。'},
+         {img:'images/shrine/sutsujigaoka-07.jpg',c:'天神牛的石像，據說撫摸後能消災解厄、增長智慧。'},
+         {img:'images/shrine/sutsujigaoka-08.jpg',c:'境內的一處角落，冬日寧靜的氛圍讓人心靜。'},
+       ]},
+    ]},
+  castle:{name:'日本城',nameEn:'Castles of Japan',icon:'🏯',bg:'linear-gradient(150deg,#1a2518,#2e3d28)',
     places:[
-      {id:'himeji',name:'姬路城',nameEn:'Himeji Castle',region:'兵庫',date:'2025.01',thumbBg:'linear-gradient(135deg,#1e2a1e,#3a4a3a)',thumbEmoji:'🏯',desc:'雪後的姬路城像漂浮在霧中的白鷺，石垣上還積著薄薄白雪。這是我第三次來，每次都是不同季節，但這次的雪景是最不真實的一次。',tags:['白鷺城','雪景','石垣','世界遺產'],photos:[{e:'🏯',c:'雪後的天守閣，白色城壁與白雪融為一體，像是消失在天空中。'},{e:'❄️',c:'石垣上的薄雪，每塊石頭的縫隙都積了白。'},{e:'🌸',c:'西の丸庭園，想像春天櫻花盛開時的景色。'},{e:'⛅',c:'天守閣頂層狭間窗望出去，整個播磨平野都在腳下。'}]},
-      {id:'matsumoto',name:'松本城',nameEn:'Matsumoto Castle',region:'長野',date:'2024.06',thumbBg:'linear-gradient(135deg,#101018,#202030)',thumbEmoji:'🖤',desc:'黑色天守閣倒映在護城河中，是日本現存12座完整天守之一。烏城的外觀在陽光下顯得格外剽悍，與姬路城的白鷺形成強烈對比。',tags:['烏城','黑色天守','護城河','國寶'],photos:[{e:'🏯',c:'黑色天守倒映在護城河中，構圖幾乎是完美的對稱。'},{e:'🌙',c:'月見橹，江戶時代後期加建，用來賞月的優雅設計。'},{e:'🏔️',c:'天守閣後方的北アルプス，雪山與黑色城郭的絕妙對比。'}]},
-      {id:'osaka-castle',name:'大阪城',nameEn:'Osaka Castle',region:'大阪',date:'2024.11',thumbBg:'linear-gradient(135deg,#1e1a28,#2e2838)',thumbEmoji:'🌸',desc:'大阪城公園的銀杏葉鋪滿石垣下的廣場，天守閣在金黃色中顯得格外莊嚴。這裡是豐臣秀吉的城，訴說著那個時代的野心。',tags:['銀杏','秋天','石垣','豐臣秀吉'],photos:[{e:'🏯',c:'秋天的大阪城，銀杏黃葉與白色天守形成暖色對比。'},{e:'🌸',c:'春天的護城河沿岸，櫻花與城郭是大阪最標誌性的風景。'},{e:'🌿',c:'西の丸庭園，賞城的最佳角度。'}]},
-    ]
-  },
-  japan:{
-    name:'日本旅遊紀錄', nameEn:'Japan Travel', icon:'🗾',
-    bg:'linear-gradient(150deg,#1e1a2a,#2e2a3e)',
+      {id:'himeji',name:'姬路城',nameEn:'Himeji Castle',region:'兵庫',date:'2025.01',thumbBg:'linear-gradient(135deg,#1e2a1e,#3a4a3a)',thumbEmoji:'🏯',mapsUrl:'https://maps.google.com/?q=姬路城',desc:'雪後的姬路城像漂浮在霧中的白鷺，石垣上還積著薄薄白雪。這是我第三次來，每次都是不同季節，但這次的雪景是最不真實的一次。',tags:['白鷺城','雪景','石垣','世界遺產'],photos:[{e:'🏯',c:'雪後的天守閣，白色城壁與白雪融為一體。'},{e:'❄️',c:'石垣上的薄雪，每塊石頭的縫隙都積了白。'},{e:'🌸',c:'西の丸庭園，春天櫻花盛開時的景色。'},{e:'⛅',c:'天守閣頂層狭間窗望出去，播磨平野都在腳下。'}]},
+      {id:'matsumoto',name:'松本城',nameEn:'Matsumoto Castle',region:'長野',date:'2024.06',thumbBg:'linear-gradient(135deg,#101018,#202030)',thumbEmoji:'🖤',mapsUrl:'https://maps.google.com/?q=松本城',desc:'黑色天守閣倒映在護城河中，是日本現存12座完整天守之一。烏城的外觀在陽光下顯得格外剽悍，與姬路城的白鷺形成強烈對比。',tags:['烏城','黑色天守','護城河','國寶'],photos:[{e:'🏯',c:'黑色天守倒映在護城河中，幾乎完美的對稱構圖。'},{e:'🌙',c:'月見橹，江戶時代後期加建，用來賞月的優雅設計。'},{e:'🏔️',c:'天守閣後方的北アルプス，雪山與黑色城郭的絕妙對比。'}]},
+      {id:'osaka-castle',name:'大阪城',nameEn:'Osaka Castle',region:'大阪',date:'2024.11',thumbBg:'linear-gradient(135deg,#1e1a28,#2e2838)',thumbEmoji:'🌸',mapsUrl:'https://maps.google.com/?q=大阪城',desc:'大阪城公園的銀杏葉鋪滿石垣下的廣場，天守閣在金黃色中顯得格外莊嚴。這裡是豐臣秀吉的城，訴說著那個時代的野心。',tags:['銀杏','秋天','石垣','豐臣秀吉'],photos:[{e:'🏯',c:'秋天的大阪城，銀杏黃葉與白色天守形成暖色對比。'},{e:'🌸',c:'春天護城河沿岸的櫻花與城郭。'},{e:'🌿',c:'西の丸庭園，賞城的最佳角度。'}]},
+    ]},
+  japan:{name:'日本旅遊紀錄',nameEn:'Japan Travel',icon:'🗾',bg:'linear-gradient(150deg,#1e1a2a,#2e2a3e)',
     places:[
-      {id:'arashiyama',name:'嵐山',nameEn:'Arashiyama, Kyoto',region:'京都',date:'2025.03',thumbBg:'linear-gradient(135deg,#1e2a1a,#2e3a28)',thumbEmoji:'🎋',desc:'竹林小徑、渡月橋、天龍寺庭園。嵐山幾乎濃縮了所有人對京都的想像，但只要避開人潮的時間，還是能找到屬於自己的安靜角落。',tags:['竹林','渡月橋','早晨','天龍寺'],photos:[{e:'🎋',c:'竹林小徑，清晨七點前幾乎無人，風吹過竹葉的聲音很治癒。'},{e:'🌉',c:'渡月橋與保津川，秋天楓葉染紅的嵐山是全京都最美的風景。'},{e:'🍵',c:'天龍寺的枯山水庭園，借景嵐山的設計讓庭院無限延伸。'},{e:'🚂',c:'嵐電的復古電車，穿過住宅區的路面軌道，很有生活感。'}]},
-      {id:'dotonbori',name:'道頓堀',nameEn:'Dotonbori, Osaka',region:'大阪',date:'2024.11',thumbBg:'linear-gradient(135deg,#1a1028,#2a1838)',thumbEmoji:'🌃',desc:'雨夜的大阪有一種特別的質感，地面積水反射著招牌的光，每個路人都成了電影場景。深夜的道頓堀才是我想記錄的大阪。',tags:['霓虹','深夜','雨天','街拍'],photos:[{e:'🌃',c:'雨夜的戎橋，地面積水將霓虹燈倒映成抽象畫。'},{e:'💡',c:'格力高招牌，霓虹燈在雨中確實有種魔力。'},{e:'🍜',c:'凌晨一點的一蘭拉麵，隔板座位、一個人安靜地吃的體驗。'},{e:'🎭',c:'法善寺橫丁，青苔覆蓋的不動明王像，藏在大阪最喧鬧的角落。'}]},
-    ]
-  },
-  'hotel-jp':{
-    name:'旅館（日本）', nameEn:'Hotels in Japan', icon:'🏨',
-    bg:'linear-gradient(150deg,#1a1418,#2e2028)',
+      {id:'arashiyama',name:'嵐山',nameEn:'Arashiyama, Kyoto',region:'京都',date:'2025.03',thumbBg:'linear-gradient(135deg,#1e2a1a,#2e3a28)',thumbEmoji:'🎋',mapsUrl:'https://maps.google.com/?q=嵐山+京都',desc:'竹林小徑、渡月橋、天龍寺庭園。嵐山幾乎濃縮了所有人對京都的想像，但只要避開人潮，還是能找到屬於自己的安靜角落。',tags:['竹林','渡月橋','早晨','天龍寺'],photos:[{e:'🎋',c:'竹林小徑，清晨七點前幾乎無人，風吹過竹葉很治癒。'},{e:'🌉',c:'渡月橋與保津川，秋天楓葉染紅的嵐山是全京都最美的風景。'},{e:'🍵',c:'天龍寺的枯山水庭園，借景嵐山讓庭院無限延伸。'},{e:'🚂',c:'嵐電的復古電車，穿過住宅區的路面軌道，很有生活感。'}]},
+      {id:'dotonbori',name:'道頓堀',nameEn:'Dotonbori, Osaka',region:'大阪',date:'2024.11',thumbBg:'linear-gradient(135deg,#1a1028,#2a1838)',thumbEmoji:'🌃',mapsUrl:'https://maps.google.com/?q=道頓堀+大阪',desc:'雨夜的大阪有一種特別的質感，地面積水反射著招牌的光，每個路人都成了電影場景。深夜的道頓堀才是我想記錄的大阪。',tags:['霓虹','深夜','雨天','街拍'],photos:[{e:'🌃',c:'雨夜的戎橋，地面積水將霓虹燈倒映成抽象畫。'},{e:'💡',c:'格力高招牌，霓虹燈在雨中確實有種魔力。'},{e:'🍜',c:'凌晨一點的一蘭拉麵，隔板座位安靜地吃。'},{e:'🎭',c:'法善寺橫丁，青苔覆蓋的不動明王像。'}]},
+    ]},
+  'hotel-jp':{name:'旅館（日本）',nameEn:'Hotels in Japan',icon:'🏨',bg:'linear-gradient(150deg,#1a1418,#2e2028)',
     places:[
-      {id:'kyoto-ryokan',name:'京都町家旅館',nameEn:'Kyoto Machiya Ryokan',region:'京都・祇園',date:'2025.03',thumbBg:'linear-gradient(135deg,#2a1414,#3a2020)',thumbEmoji:'🏮',desc:'住在祇園的百年町家改建旅館，坪庭的石燈籠、木格子的朝陽、榻榻米的氣味。那兩晚讓我理解了為什麼日本人說「旅館是用全身感受的」。',tags:['町家','坪庭','榻榻米','祇園'],photos:[{e:'🏮',c:'傍晚的坪庭，石燈籠亮起，映照著青苔與楓葉。'},{e:'🌅',c:'清晨從紙拉門透進來的光，打在榻榻米上形成格紋。'},{e:'🍵',c:'早餐的懷石，每一道都是當季的食材。'},{e:'🛁',c:'檜木浴槽，泡在裡面能聞到淡淡的木頭香。'}]},
-      {id:'hakone-onsen',name:'箱根湯本溫泉旅館',nameEn:'Hakone Onsen Ryokan',region:'神奈川・箱根',date:'2024.09',thumbBg:'linear-gradient(135deg,#1a2428,#283448)',thumbEmoji:'♨️',desc:'早湯本的老旅館，從露天風呂能看到早雲山的晨霧。秋天的箱根泡湯加上懷石料理，是我每年都想重複的儀式感。',tags:['露天風呂','溫泉','懷石','早晨'],photos:[{e:'♨️',c:'清晨六點的露天風呂，早雲山的霧氣從山谷中升起。'},{e:'🍂',c:'客房的坪庭，秋天楓葉染紅了石燈籠旁的角落。'},{e:'🍱',c:'懷石料理的前菜，擺盤精緻得讓人捨不得動筷。'}]},
-    ]
-  },
-  'hotel-tw':{
-    name:'旅館（台灣）', nameEn:'Hotels in Taiwan', icon:'🏠',
-    bg:'linear-gradient(150deg,#182018,#283028)',
+      {id:'kyoto-ryokan',name:'京都町家旅館',nameEn:'Kyoto Machiya Ryokan',region:'京都・祇園',date:'2025.03',thumbBg:'linear-gradient(135deg,#2a1414,#3a2020)',thumbEmoji:'🏮',mapsUrl:'https://maps.google.com/?q=祇園+京都+旅館',desc:'住在祇園的百年町家改建旅館，坪庭的石燈籠、木格子的朝陽、榻榻米的氣味。那兩晚讓我理解了為什麼日本人說「旅館是用全身感受的」。',tags:['町家','坪庭','榻榻米','祇園'],photos:[{e:'🏮',c:'傍晚的坪庭，石燈籠亮起，映照著青苔與楓葉。'},{e:'🌅',c:'清晨從紙拉門透進來的光，打在榻榻米上形成格紋。'},{e:'🍵',c:'早餐的懷石，每一道都是當季的食材。'},{e:'🛁',c:'檜木浴槽，泡在裡面能聞到淡淡的木頭香。'}]},
+      {id:'hakone-onsen',name:'箱根湯本溫泉旅館',nameEn:'Hakone Onsen Ryokan',region:'神奈川・箱根',date:'2024.09',thumbBg:'linear-gradient(135deg,#1a2428,#283448)',thumbEmoji:'♨️',mapsUrl:'https://maps.google.com/?q=箱根湯本+旅館',desc:'早湯本的老旅館，從露天風呂能看到早雲山的晨霧。秋天的箱根泡湯加上懷石料理，是我每年都想重複的儀式感。',tags:['露天風呂','溫泉','懷石','早晨'],photos:[{e:'♨️',c:'清晨六點的露天風呂，早雲山的霧氣從山谷中升起。'},{e:'🍂',c:'客房的坪庭，秋天楓葉染紅了石燈籠旁的角落。'},{e:'🍱',c:'懷石料理的前菜，擺盤精緻得讓人捨不得動筷。'}]},
+    ]},
+  'hotel-tw':{name:'旅館（台灣）',nameEn:'Hotels in Taiwan',icon:'🏠',bg:'linear-gradient(150deg,#182018,#283028)',
     places:[
-      {id:'jiufen-inn',name:'九份山城民宿',nameEn:'Jiufen Mountain Inn',region:'新北・九份',date:'2024.12',thumbBg:'linear-gradient(135deg,#2a1010,#3a1818)',thumbEmoji:'🏮',desc:'雨天的九份，從民宿窗口看出去是海，遠方是基隆嶼。紅燈籠在霧雨中暈開，這個畫面讓我理解了為什麼宮崎駿會被這裡打動。',tags:['九份','紅燈籠','雨天','海景'],photos:[{e:'🏮',c:'傍晚的豎崎路，紅燈籠在霧雨中一路蜿蜒向上。'},{e:'🌊',c:'從民宿窗口望向金瓜石方向的山景，遠方是灰色的海。'},{e:'☕',c:'民宿主人自製的薑茶，在濕冷的雨天裡格外暖胃。'}]},
-      {id:'taitung-resort',name:'台東海景民宿',nameEn:'Taitung Ocean View B&B',region:'台東',date:'2024.07',thumbBg:'linear-gradient(135deg,#102028,#183040)',thumbEmoji:'🌊',desc:'面對太平洋的民宿，早晨從床上就能看到日出。台東的慢節奏和乾淨空氣，讓人待了三天之後覺得台北的一切都是不必要的。',tags:['海景','日出','太平洋','慢活'],photos:[{e:'🌅',c:'從房間望出去的太平洋日出，海天連成一線的遼闊感。'},{e:'🌊',c:'民宿前的石子海灘，清晨退潮後露出的礁石景觀。'},{e:'⭐',c:'台東的夜空沒有光害，可以看到銀河。'}]},
-    ]
-  },
-  'food-jp':{
-    name:'美食（日本）', nameEn:'Food in Japan', icon:'🍜',
-    bg:'linear-gradient(150deg,#1e1410,#2e2018)',
+      {id:'jiufen-inn',name:'九份山城民宿',nameEn:'Jiufen Mountain Inn',region:'新北・九份',date:'2024.12',thumbBg:'linear-gradient(135deg,#2a1010,#3a1818)',thumbEmoji:'🏮',mapsUrl:'https://maps.google.com/?q=九份+民宿',desc:'雨天的九份，從民宿窗口看出去是海，遠方是基隆嶼。紅燈籠在霧雨中暈開，這個畫面讓我理解了為什麼宮崎駿會被這裡打動。',tags:['九份','紅燈籠','雨天','海景'],photos:[{e:'🏮',c:'傍晚的豎崎路，紅燈籠在霧雨中一路蜿蜒向上。'},{e:'🌊',c:'從民宿窗口望向金瓜石方向的山景，遠方是灰色的海。'},{e:'☕',c:'民宿主人自製的薑茶，在濕冷的雨天裡格外暖胃。'}]},
+      {id:'taitung-resort',name:'台東海景民宿',nameEn:'Taitung Ocean View B&B',region:'台東',date:'2024.07',thumbBg:'linear-gradient(135deg,#102028,#183040)',thumbEmoji:'🌊',mapsUrl:'https://maps.google.com/?q=台東+海景民宿',desc:'面對太平洋的民宿，早晨從床上就能看到日出。台東的慢節奏和乾淨空氣，讓人待了三天之後覺得台北的一切都是不必要的。',tags:['海景','日出','太平洋','慢活'],photos:[{e:'🌅',c:'從房間望出去的太平洋日出，海天連成一線的遼闊感。'},{e:'🌊',c:'民宿前的石子海灘，清晨退潮後露出的礁石景觀。'},{e:'⭐',c:'台東的夜空沒有光害，可以看到銀河。'}]},
+    ]},
+  'food-jp':{name:'美食（日本）',nameEn:'Food in Japan',icon:'🍜',bg:'linear-gradient(150deg,#1e1410,#2e2018)',
     places:[
-      {id:'kyoto-kaiseki',name:'京都懷石料理',nameEn:'Kyoto Kaiseki',region:'京都',date:'2025.03',thumbBg:'linear-gradient(135deg,#2a1a10,#3a2818)',thumbEmoji:'🍱',desc:'在木屋町的一家老舖吃了我這輩子最認真的一頓飯。八道菜、三小時，每一道都在講一個關於當季食材的故事。',tags:['懷石','京料理','當季','職人'],photos:[{e:'🍱',c:'先付——豆腐田樂與季節野菜，精緻得像一幅畫。'},{e:'🐟',c:'造り——京都的鯖棒壽司，醋漬鯖魚配上昆布高湯的飯。'},{e:'🍵',c:'水物——最後的抹茶布丁，苦甘比例剛剛好。'}]},
-      {id:'osaka-ramen',name:'大阪拉麵巡禮',nameEn:'Osaka Ramen Tour',region:'大阪',date:'2024.11',thumbBg:'linear-gradient(135deg,#2a1208,#3a2010)',thumbEmoji:'🍜',desc:'大阪不以拉麵著名，但這次花了兩天找了五家，從豚骨到醬油系都試了一遍，意外發現大阪有自己獨特的煮干しだし風格。',tags:['拉麵','煮干し','深夜','一個人'],photos:[{e:'🍜',c:'煮干し系拉麵，濃厚的小魚乾湯頭是大阪本地人的最愛。'},{e:'🥚',c:'半熟玉子，浸在醬油裡的蛋黃濃郁得像奶油。'},{e:'🌙',c:'凌晨的拉麵店，只有幾張吧台座位，安靜地只聽到吸麵聲。'}]},
-    ]
-  },
-  'food-tw':{
-    name:'美食（台灣）', nameEn:'Food in Taiwan', icon:'🥢',
-    bg:'linear-gradient(150deg,#1e1a10,#2e2a18)',
+      {id:'kyoto-kaiseki',name:'京都懷石料理',nameEn:'Kyoto Kaiseki',region:'京都',date:'2025.03',thumbBg:'linear-gradient(135deg,#2a1a10,#3a2818)',thumbEmoji:'🍱',mapsUrl:'https://maps.google.com/?q=京都+懷石料理',desc:'在木屋町的一家老舖吃了我這輩子最認真的一頓飯。八道菜、三小時，每一道都在講一個關於當季食材的故事。',tags:['懷石','京料理','當季','職人'],photos:[{e:'🍱',c:'先付——豆腐田樂與季節野菜，精緻得像一幅畫。'},{e:'🐟',c:'造り——京都的鯖棒壽司，醋漬鯖魚配上昆布高湯的飯。'},{e:'🍵',c:'水物——最後的抹茶布丁，苦甘比例剛剛好。'}]},
+      {id:'osaka-ramen',name:'大阪拉麵巡禮',nameEn:'Osaka Ramen Tour',region:'大阪',date:'2024.11',thumbBg:'linear-gradient(135deg,#2a1208,#3a2010)',thumbEmoji:'🍜',mapsUrl:'https://maps.google.com/?q=大阪+拉麵',desc:'大阪不以拉麵著名，但這次花了兩天找了五家，意外發現大阪有自己獨特的煮干しだし風格。',tags:['拉麵','煮干し','深夜','一個人'],photos:[{e:'🍜',c:'煮干し系拉麵，濃厚的小魚乾湯頭是大阪本地人的最愛。'},{e:'🥚',c:'半熟玉子，浸在醬油裡的蛋黃濃郁得像奶油。'},{e:'🌙',c:'凌晨的拉麵店，只有幾張吧台座位。'}]},
+    ]},
+  'food-tw':{name:'美食（台灣）',nameEn:'Food in Taiwan',icon:'🥢',bg:'linear-gradient(150deg,#1e1a10,#2e2a18)',
     places:[
-      {id:'tainan-food',name:'台南老城區美食',nameEn:'Tainan Old Town Food',region:'台南',date:'2024.08',thumbBg:'linear-gradient(135deg,#2a2010,#3a3018)',thumbEmoji:'🍤',desc:'台南的美食不在餐廳，在巷子裡。牛肉湯、蝦捲、碗粿、棺材板，每一樣都有自己的堅持和歷史。',tags:['牛肉湯','蝦捲','老店','早餐'],photos:[{e:'🥩',c:'清晨六點的牛肉湯，用溫度剛好的湯燙熟薄切牛肉，是台南的晨間儀式。'},{e:'🍤',c:'老字號的蝦捲，外皮炸得酥脆，內餡鮮甜。'},{e:'🫙',c:'棺材板的鐵板吐司，起士與海鮮的組合是台南才有的奇妙發明。'}]},
-      {id:'taichung-market',name:'台中第二市場',nameEn:'Taichung 2nd Market',region:'台中',date:'2024.12',thumbBg:'linear-gradient(135deg,#201814,#302820)',thumbEmoji:'🏮',desc:'日治時代留下來的市場建築，賣了快百年的麻薏湯和山河魯肉飯。早上七點站著吃，旁邊是阿嬤和菜市仔阿伯，這才是台中的早晨。',tags:['市場','麻薏湯','日式建築','早市'],photos:[{e:'🏮',c:'第二市場的八角建築，日治時代的紅磚在清晨光線下顯得古樸。'},{e:'🍲',c:'麻薏湯，苦中帶甘的夏季限定，台中人的童年味道。'},{e:'🍚',c:'山河魯肉飯，三層肉的油脂與滷汁把白飯染成金黃色。'}]},
-    ]
-  },
-  taiwan:{
-    name:'台灣日常紀錄', nameEn:'Taiwan Daily Life', icon:'🌿',
-    bg:'linear-gradient(150deg,#182020,#243030)',
+      {id:'tainan-food',name:'台南老城區美食',nameEn:'Tainan Old Town Food',region:'台南',date:'2024.08',thumbBg:'linear-gradient(135deg,#2a2010,#3a3018)',thumbEmoji:'🍤',mapsUrl:'https://maps.google.com/?q=台南+美食',desc:'台南的美食不在餐廳，在巷子裡。牛肉湯、蝦捲、碗粿、棺材板，每一樣都有自己的堅持和歷史。',tags:['牛肉湯','蝦捲','老店','早餐'],photos:[{e:'🥩',c:'清晨六點的牛肉湯，是台南的晨間儀式。'},{e:'🍤',c:'老字號的蝦捲，外皮炸得酥脆，內餡鮮甜。'},{e:'🫙',c:'棺材板的鐵板吐司，起士與海鮮的組合是台南才有的奇妙發明。'}]},
+      {id:'taichung-market',name:'台中第二市場',nameEn:'Taichung 2nd Market',region:'台中',date:'2024.12',thumbBg:'linear-gradient(135deg,#201814,#302820)',thumbEmoji:'🏮',mapsUrl:'https://maps.google.com/?q=台中第二市場',desc:'日治時代留下來的市場建築，賣了快百年的麻薏湯和山河魯肉飯。早上七點站著吃，這才是台中的早晨。',tags:['市場','麻薏湯','日式建築','早市'],photos:[{e:'🏮',c:'第二市場的八角建築，日治時代的紅磚在清晨光線下顯得古樸。'},{e:'🍲',c:'麻薏湯，苦中帶甘的夏季限定，台中人的童年味道。'},{e:'🍚',c:'山河魯肉飯，三層肉的油脂與滷汁把白飯染成金黃色。'}]},
+    ]},
+  taiwan:{name:'台灣日常紀錄',nameEn:'Taiwan Daily Life',icon:'🌿',bg:'linear-gradient(150deg,#182020,#243030)',
     places:[
-      {id:'taichung-lanes',name:'台中巷弄光影',nameEn:'Taichung Alley Light',region:'台中',date:'2024.12',thumbBg:'linear-gradient(135deg,#1a1a28,#28283a)',thumbEmoji:'🏮',desc:'用底片感的視角記錄台中的老街巷弄，宮廟前的榕樹、鐵窗花、阿嬤的躺椅。這些東西在台灣太普通了，但換個眼光看，它們就是最有味道的風景。',tags:['鐵窗花','宮廟','騎樓','日常'],photos:[{e:'🌿',c:'宮廟前的老榕樹，樹根已經把地磚撐裂了，但廟方把它當成神樹供著。'},{e:'🏮',c:'下午三點的騎樓斜光，把日式磨石子地板染成了金色。'},{e:'🌺',c:'鐵窗花——台灣獨有的鐵製裝飾窗，每扇都是手工打造的幾何藝術。'},{e:'🐱',c:'巷子裡的社區貓，在廢棄的木椅上睡得很沉。'}]},
-      {id:'dihua',name:'迪化街老屋',nameEn:'Dihua Street Heritage',region:'台北',date:'2024.09',thumbBg:'linear-gradient(135deg,#1e1818,#2e2828)',thumbEmoji:'🏛️',desc:'斜陽打在南北貨的紅色袋裝上，閩南式與日式的建築混搭出只有台北才有的迷人錯亂。最喜歡下午三四點，光線斜進騎樓，整條街像是被老照片濾過一層。',tags:['迪化街','巴洛克','南北貨','老屋'],photos:[{e:'🏛️',c:'迪化街的巴洛克立面，閩南傳統建築上加了西式裝飾，是殖民時代的產物。'},{e:'🧧',c:'南北貨的乾貨吊掛，香菇、魷魚、蝦米串成了一面食物的牆。'},{e:'🌅',c:'黃昏的騎樓，夕陽從西側打進來，塵埃在光柱裡漂浮。'},{e:'📸',c:'霞海城隍廟的香爐煙，在藍天的映襯下向上散去。'}]},
-    ]
-  },
+      {id:'taichung-lanes',name:'台中巷弄光影',nameEn:'Taichung Alley Light',region:'台中',date:'2024.12',thumbBg:'linear-gradient(135deg,#1a1a28,#28283a)',thumbEmoji:'🏮',mapsUrl:'https://maps.google.com/?q=台中+老街',desc:'用底片感的視角記錄台中的老街巷弄，宮廟前的榕樹、鐵窗花、阿嬤的躺椅。這些東西在台灣太普通了，但換個眼光看，它們就是最有味道的風景。',tags:['鐵窗花','宮廟','騎樓','日常'],photos:[{e:'🌿',c:'宮廟前的老榕樹，樹根已經把地磚撐裂了，但廟方把它當成神樹供著。'},{e:'🏮',c:'下午三點的騎樓斜光，把日式磨石子地板染成了金色。'},{e:'🌺',c:'鐵窗花——台灣獨有的鐵製裝飾窗，每扇都是手工打造的幾何藝術。'},{e:'🐱',c:'巷子裡的社區貓，在廢棄的木椅上睡得很沉。'}]},
+      {id:'dihua',name:'迪化街老屋',nameEn:'Dihua Street Heritage',region:'台北',date:'2024.09',thumbBg:'linear-gradient(135deg,#1e1818,#2e2828)',thumbEmoji:'🏛️',mapsUrl:'https://maps.google.com/?q=迪化街+台北',desc:'斜陽打在南北貨的紅色袋裝上，閩南式與日式的建築混搭出只有台北才有的迷人錯亂。最喜歡下午三四點，光線斜進騎樓，整條街像是被老照片濾過一層。',tags:['迪化街','巴洛克','南北貨','老屋'],photos:[{e:'🏛️',c:'迪化街的巴洛克立面，閩南傳統建築上加了西式裝飾，是殖民時代的產物。'},{e:'🧧',c:'南北貨的乾貨吊掛，香菇、魷魚、蝦米串成了一面食物的牆。'},{e:'🌅',c:'黃昏的騎樓，夕陽從西側打進來，塵埃在光柱裡漂浮。'},{e:'📸',c:'霞海城隍廟的香爐煙，在藍天的映襯下向上散去。'}]},
+    ]},
 };
 
-/* ══════════════════════════
-   STATE
-══════════════════════════ */
-let state = { catId:null, placeId:null, photos:[], lbIdx:0, history:[] };
+/* ══ STATE ══ */
+const S = {catId:null,placeId:null,photos:[],lbIdx:0,hist:[{t:'home'}]};
 
-/* ══════════════════════════
-   CURSOR
-══════════════════════════ */
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx=0, my=0, rx=0, ry=0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.transform = `translate(${mx-5}px,${my-5}px)`;
-});
-function animRing() {
-  rx += (mx - rx - 18) * 0.12;
-  ry += (my - ry - 18) * 0.12;
-  ring.style.transform = `translate(${rx}px,${ry}px)`;
-  requestAnimationFrame(animRing);
-}
-animRing();
-document.querySelectorAll('button,a,.place-card,.cat-card,.photo-item').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+/* ══ CURSOR ══ */
+const cur=document.getElementById('cursor'),cring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.transform=`translate(${mx-5}px,${my-5}px)`;});
+(function animR(){rx+=(mx-rx-18)*0.12;ry+=(my-ry-18)*0.12;cring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(animR);})();
+document.querySelectorAll('button,a,.place-card,.cat-row,.photo-item,.latest-card,.hero-tile').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
 
-/* ══════════════════════════
-   NAV SCROLL
-══════════════════════════ */
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
-}, {passive:true});
+/* ══ NAV SCROLL ══ */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>20),{passive:true});
 
-/* ══════════════════════════
-   REVEAL ON SCROLL
-══════════════════════════ */
-const ro = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
-}, {threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+/* ══ REVEAL ══ */
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:0.08});
+function observeReveals(root=document){root.querySelectorAll('.reveal').forEach(el=>ro.observe(el));}
+observeReveals();
 
-/* ══════════════════════════
-   NAVIGATION
-══════════════════════════ */
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active','page-enter'));
-  const pg = document.getElementById('page-'+id);
-  pg.classList.add('active');
-  requestAnimationFrame(() => pg.classList.add('page-enter'));
-  window.scrollTo({top:0, behavior:'smooth'});
-  // re-observe reveals
-  setTimeout(() => pg.querySelectorAll('.reveal').forEach(el => ro.observe(el)), 100);
-}
-
-function setBreadcrumb(items) {
-  const bc = document.getElementById('breadcrumb');
-  const back = document.getElementById('navBack');
-  if(!items.length) { bc.innerHTML=''; back.classList.remove('show'); return; }
-  back.classList.add('show');
-  let html = `<span class="bc" onclick="goHome()">首頁</span>`;
-  items.forEach((item,i) => {
-    html += `<span class="bc-sep">›</span>`;
-    if(i===items.length-1) html += `<span class="bc-cur">${item.label}</span>`;
-    else html += `<span class="bc" onclick="${item.fn}">${item.label}</span>`;
+/* ══ LATEST ══ */
+function buildLatest(){
+  const items=[];
+  Object.entries(DATA).forEach(([catId,cat])=>{
+    cat.places.forEach(p=>items.push({catId,cat,place:p}));
   });
-  bc.innerHTML = html;
+  // sort by date desc (simple string sort works for YYYY.MM)
+  items.sort((a,b)=>b.place.date.localeCompare(a.place.date));
+  const top=items.slice(0,3);
+  document.getElementById('latest-grid').innerHTML=top.map(({catId,cat,place})=>`
+    <div class="latest-card reveal" onclick="openPlace('${catId}','${place.id}')">
+      <div class="latest-thumb" style="background:${place.thumbBg}">
+        ${place.thumbImg?`<img src="${place.thumbImg}" alt="${place.name}" loading="lazy">`:`<div class="latest-thumb-emoji">${place.thumbEmoji||'📷'}</div>`}
+      </div>
+      <div class="latest-body">
+        <div class="latest-cat">${cat.icon} ${cat.name}</div>
+        <div class="latest-name">${place.name}</div>
+        <div class="latest-meta">${place.region} · ${place.date}</div>
+      </div>
+    </div>
+  `).join('');
+  observeReveals(document.getElementById('latest-grid'));
+}
+buildLatest();
+
+/* ══ NAVIGATION ══ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  pg.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>observeReveals(pg),100);
+  // bottom nav state
+  ['bn-home','bn-cats','bn-about'].forEach(b=>document.getElementById(b)?.classList.remove('active'));
+  if(id==='home')document.getElementById('bn-home')?.classList.add('active');
 }
 
-function goBack() {
-  if(state.history.length <= 1) { goHome(); return; }
-  state.history.pop();
-  const prev = state.history[state.history.length-1];
-  if(prev.type==='home') goHome();
-  else if(prev.type==='cat') openCat(prev.catId, true);
+function setBc(items){
+  const bc=document.getElementById('breadcrumb');
+  const back=document.getElementById('navBack');
+  if(!items.length){bc.innerHTML='';back.style.display='none';return;}
+  back.style.display='flex';
+  let h=`<span class="bc" onclick="goHome()">首頁</span>`;
+  items.forEach((item,i)=>{
+    h+=`<span class="bc-sep">›</span>`;
+    if(i===items.length-1)h+=`<span class="bc-cur">${item.label}</span>`;
+    else h+=`<span class="bc" onclick="${item.fn}">${item.label}</span>`;
+  });
+  bc.innerHTML=h;
 }
 
-function goHome() {
-  state.history = [{type:'home'}];
-  showPage('home');
-  setBreadcrumb([]);
+function goBack(){
+  if(S.hist.length<=1){goHome();return;}
+  S.hist.pop();
+  const prev=S.hist[S.hist.length-1];
+  if(prev.t==='home')goHome(true);
+  else if(prev.t==='cat')openCat(prev.catId,true);
 }
 
-function goAbout() {
+function goHome(isBack=false){
+  if(!isBack)S.hist=[{t:'home'}];
+  showPage('home');setBc([]);
+}
+
+function goAbout(){
   goHome();
-  setTimeout(() => document.getElementById('about-anchor').scrollIntoView({behavior:'smooth'}), 400);
+  setTimeout(()=>document.getElementById('about-anchor').scrollIntoView({behavior:'smooth'}),380);
+  document.getElementById('bn-about')?.classList.add('active');
+  document.getElementById('bn-home')?.classList.remove('active');
 }
 
-/* ══════════════════════════
-   OPEN CATEGORY
-══════════════════════════ */
-function openCat(catId, isBack=false) {
-  const cat = DATA[catId];
-  state.catId = catId;
-  if(!isBack) state.history.push({type:'cat', catId});
+/* ══ OPEN CATEGORY ══ */
+function openCat(catId,isBack=false){
+  const cat=DATA[catId];S.catId=catId;
+  if(!isBack)S.hist.push({t:'cat',catId});
 
-  // Header
-  const hdr = document.getElementById('cat-header');
-  hdr.style.background = cat.bg;
-  document.getElementById('cat-header-bg').style.background = cat.bg;
-  document.getElementById('cat-super').textContent = cat.icon + '  良日和 Ryobiyori';
-  document.getElementById('cat-title').textContent = cat.name;
-  document.getElementById('cat-title-en').textContent = cat.nameEn;
+  const bg=document.getElementById('cat-bg');
+  bg.style.background=cat.bg;bg.style.backgroundImage='';
+  document.getElementById('cat-super').textContent=cat.icon+'  良日和 Ryobiyori';
+  document.getElementById('cat-title').textContent=cat.name;
+  document.getElementById('cat-en').textContent=cat.nameEn;
 
-  // Cards
-  document.getElementById('places-grid').innerHTML = cat.places.map(p => `
+  document.getElementById('places-grid').innerHTML=cat.places.map(p=>`
     <div class="place-card reveal" onclick="openPlace('${catId}','${p.id}')">
       <div class="place-thumb" style="background:${p.thumbBg}">
-        ${p.thumbImg
-          ? `<img src="${p.thumbImg}" alt="${p.name}" loading="lazy"><div class="place-overlay"></div>`
-          : `<div class="place-thumb-emoji">${p.thumbEmoji||'📷'}</div>`}
+        ${p.thumbImg?`<img src="${p.thumbImg}" alt="${p.name}" loading="lazy"><div class="place-overlay"></div>`:`<div class="place-thumb-emoji">${p.thumbEmoji||'📷'}</div>`}
       </div>
       <div class="place-body">
         <div class="place-region">${p.region}</div>
@@ -929,39 +686,38 @@ function openCat(catId, isBack=false) {
   `).join('');
 
   showPage('cat');
-  setBreadcrumb([{label:cat.name, fn:`openCat('${catId}')`}]);
+  setBc([{label:cat.name,fn:`openCat('${catId}')`}]);
+  observeReveals(document.getElementById('page-cat'));
 }
 
-/* ══════════════════════════
-   OPEN PLACE GALLERY
-══════════════════════════ */
-function openPlace(catId, placeId) {
-  const cat = DATA[catId];
-  const place = cat.places.find(p => p.id===placeId);
-  state.catId = catId; state.placeId = placeId; state.photos = place.photos;
-  state.history.push({type:'place', catId, placeId});
+/* ══ OPEN PLACE ══ */
+function openPlace(catId,placeId){
+  const cat=DATA[catId],place=cat.places.find(p=>p.id===placeId);
+  S.catId=catId;S.placeId=placeId;S.photos=place.photos;
+  S.hist.push({t:'place',catId,placeId});
 
-  // Header
-  const hdr = document.getElementById('gal-header');
-  hdr.style.background = cat.bg;
-  if(place.thumbImg) document.getElementById('gal-header-bg').style.backgroundImage = `url(${place.thumbImg})`;
-  else document.getElementById('gal-header-bg').style.background = place.thumbBg || cat.bg;
-  document.getElementById('gal-super').textContent = cat.icon + '  ' + cat.name;
-  document.getElementById('gal-title').textContent = place.name;
-  document.getElementById('gal-title-en').textContent = place.nameEn;
+  // header bg
+  const gbg=document.getElementById('gal-bg');
+  if(place.thumbImg){gbg.style.backgroundImage=`url(${place.thumbImg})`;gbg.style.background='';}
+  else{gbg.style.background=place.thumbBg||cat.bg;gbg.style.backgroundImage='';}
 
-  // Meta
-  document.getElementById('gal-desc').textContent = place.desc;
-  document.getElementById('gal-date').textContent = place.date;
-  document.getElementById('gal-region').textContent = place.region;
-  document.getElementById('gal-tags').innerHTML = place.tags.map(t=>`<span class="gallery-tag">#${t}</span>`).join('');
+  document.getElementById('gal-super').textContent=cat.icon+'  '+cat.name;
+  document.getElementById('gal-title').textContent=place.name;
+  document.getElementById('gal-en').textContent=place.nameEn;
+  document.getElementById('gal-desc').textContent=place.desc;
+  document.getElementById('gal-date').textContent=place.date;
+  document.getElementById('gal-region').textContent=place.region;
+  document.getElementById('gal-tags').innerHTML=place.tags.map(t=>`<span class="gallery-tag">#${t}</span>`).join('');
 
-  // Photos
-  document.getElementById('photo-grid').innerHTML = place.photos.map((ph,i) => `
+  // maps link
+  const mapsBtn=document.getElementById('gal-maps');
+  if(place.mapsUrl){mapsBtn.href=place.mapsUrl;mapsBtn.style.display='inline-flex';}
+  else{mapsBtn.style.display='none';}
+
+  // photos
+  document.getElementById('photo-grid').innerHTML=place.photos.map((ph,i)=>`
     <div class="photo-item" onclick="openLb(${i})">
-      ${ph.img
-        ? `<img src="${ph.img}" alt="" loading="lazy">`
-        : `<div style="padding:40px;display:flex;align-items:center;justify-content:center;font-size:56px;background:${place.thumbBg||cat.bg}">${ph.e}</div>`}
+      ${ph.img?`<img src="${ph.img}" alt="" loading="lazy">`:`<div class="photo-emoji-box" style="background:${place.thumbBg||cat.bg}">${ph.e}</div>`}
       <div class="photo-item-overlay">
         <div class="photo-item-cap">
           <div class="photo-num">No.${String(i+1).padStart(2,'0')}</div>
@@ -972,47 +728,52 @@ function openPlace(catId, placeId) {
   `).join('');
 
   showPage('gallery');
-  setBreadcrumb([
-    {label:cat.name, fn:`openCat('${catId}')`},
-    {label:place.name, fn:''}
-  ]);
+  setBc([{label:cat.name,fn:`openCat('${catId}')`},{label:place.name,fn:''}]);
+
+  // touch swipe on photo grid
+  initSwipe(document.getElementById('photo-grid'));
 }
 
-/* ══════════════════════════
-   LIGHTBOX
-══════════════════════════ */
-function openLb(i) {
-  state.lbIdx = i;
-  renderLb();
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
+/* ══ LIGHTBOX ══ */
+function openLb(i){S.lbIdx=i;renderLb();document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+function renderLb(){
+  const ph=S.photos[S.lbIdx];
+  const w=document.getElementById('lb-img');
+  w.innerHTML=ph.img?`<img src="${ph.img}" alt="">`:`<div class="lb-img-emoji">${ph.e}</div>`;
+  document.getElementById('lb-caption').textContent=ph.c;
+  document.getElementById('lb-counter').textContent=`${S.lbIdx+1} / ${S.photos.length}`;
 }
-function renderLb() {
-  const ph = state.photos[state.lbIdx];
-  const wrap = document.getElementById('lb-img');
-  wrap.innerHTML = ph.img
-    ? `<img src="${ph.img}" alt="">`
-    : `<div class="lb-img-emoji">${ph.e}</div>`;
-  document.getElementById('lb-caption').textContent = ph.c;
-  document.getElementById('lb-counter').textContent = `${state.lbIdx+1} / ${state.photos.length}`;
-}
-function lbMove(dir) {
-  state.lbIdx = (state.lbIdx+dir+state.photos.length) % state.photos.length;
-  renderLb();
-}
-function closeLb() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => {
-  if(!document.getElementById('lightbox').classList.contains('open')) return;
-  if(e.key==='Escape') closeLb();
-  if(e.key==='ArrowLeft') lbMove(-1);
-  if(e.key==='ArrowRight') lbMove(1);
+function lbMove(d){S.lbIdx=(S.lbIdx+d+S.photos.length)%S.photos.length;renderLb();}
+function closeLb(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lightbox').classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowLeft')lbMove(-1);
+  if(e.key==='ArrowRight')lbMove(1);
 });
 
-// init
-state.history = [{type:'home'}];
+/* ══ TOUCH SWIPE (lightbox + gallery) ══ */
+let tsX=0,tsY=0;
+document.getElementById('lightbox').addEventListener('touchstart',e=>{tsX=e.touches[0].clientX;tsY=e.touches[0].clientY;},{passive:true});
+document.getElementById('lightbox').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tsX;
+  const dy=e.changedTouches[0].clientY-tsY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){lbMove(dx<0?1:-1);}
+  else if(Math.abs(dy)>80&&dy>0){closeLb();}
+},{passive:true});
+
+function initSwipe(el){
+  let sx=0;
+  el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+  el.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>50){
+      const items=el.querySelectorAll('.photo-item');
+      const idx=Array.from(items).findIndex(it=>it.getBoundingClientRect().top>0&&it.getBoundingClientRect().top<window.innerHeight);
+      if(idx>=0)openLb(Math.max(0,Math.min(S.photos.length-1,idx+(dx<0?1:-1))));
+    }
+  },{passive:true});
+}
 </script>
 </body>
 </html>
